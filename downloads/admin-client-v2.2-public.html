@@ -1836,13 +1836,9 @@
     return _0x14e01b.evans.indexOf(String(n).toLowerCase()) >= 0;
   }
   // "revoke <name>" from a saved Evan: that player's client goes to the lock screen right away.
-  // The first person ever saved as Evan can't be revoked.
   function acRevoke(from, target) {
     target = target.toLowerCase();
     if (target === from) {
-      return;
-    }
-    if (_0x14e01b.evans[0] === target) {
       return;
     }
     var i = _0x14e01b.evans.indexOf(target);
