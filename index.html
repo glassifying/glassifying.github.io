@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Client</title>
+<meta name="description" content="Admin Client for Eaglercraft 1.12.2">
+<style>
+  :root{
+    --bg:#111; --panel:#171717; --line:#2a2a2a; --line2:#3a3a3a;
+    --text:#dcdcdc; --dim:#8c8c8c; --mute:#5a5a5a;
+    --c1:#d9443b; --c2:#e0a03a; --c3:#4aa8a0; --c4:#5b7fd1;
+    --mono:Consolas,"Courier New",monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5}
+  a{color:var(--c3)}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px}
+
+  /* header */
+  header{border-bottom:1px solid var(--line)}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em;font-size:16px}
+  .bars{display:flex;gap:3px}
+  .bars i{width:4px;height:18px}
+  .bars i:nth-child(1){background:var(--c1)}
+  .bars i:nth-child(2){background:var(--c2);height:14px;margin-top:4px}
+  .bars i:nth-child(3){background:var(--c3);height:10px;margin-top:8px}
+  .bars i:nth-child(4){background:var(--c4);height:6px;margin-top:12px}
+  header nav a{color:var(--dim);text-decoration:none;margin-left:22px;font-size:13px}
+  header nav a:hover{color:var(--text)}
+
+  /* intro */
+  .intro{padding:44px 0 28px}
+  .intro h1{font-size:28px;font-weight:700}
+  .intro p{color:var(--dim);margin-top:6px;max-width:560px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .pill{font-family:var(--mono);font-size:11px;color:var(--dim);border:1px solid var(--line2);padding:3px 8px}
+
+  /* releases */
+  h2{font-size:12px;font-family:var(--mono);color:var(--mute);letter-spacing:.12em;text-transform:uppercase;
+     margin:26px 0 10px}
+  .rel{display:grid;grid-template-columns:4px 1fr auto;border:1px solid var(--line);background:var(--panel);margin-bottom:10px}
+  .rel .edge{background:var(--c1)}
+  .rel:nth-of-type(4n+2) .edge{background:var(--c2)}
+  .rel:nth-of-type(4n+3) .edge{background:var(--c3)}
+  .rel:nth-of-type(4n+4) .edge{background:var(--c4)}
+  .rel .info{padding:14px 16px}
+  .rel .name{font-weight:600}
+  .rel .sub{font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:2px}
+  .rel .notes{color:var(--dim);font-size:13px;margin-top:8px}
+  .rel .act{display:flex;align-items:center;padding:0 16px;border-left:1px solid var(--line)}
+  .btn{font-family:var(--sans);font-size:13px;font-weight:600;color:#fff;background:#2b2b2b;border:1px solid var(--line2);
+       padding:8px 16px;cursor:pointer}
+  .btn:hover{background:#353535}
+  .btn.go{background:var(--c1);border-color:var(--c1)}
+  .btn.go:hover{filter:brightness(1.1)}
+  .btn[disabled]{background:transparent;color:var(--mute);border-color:var(--line);cursor:not-allowed}
+
+  .terms{border:1px solid var(--line);padding:14px 16px;color:var(--dim);font-size:13px}
+  .terms li{margin-left:18px}
+
+  footer{border-top:1px solid var(--line);margin-top:40px}
+  footer .wrap{height:56px;display:flex;align-items:center;justify-content:space-between;color:var(--mute);font-size:12px}
+
+  /* agree dialog */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:20px}
+  .modal.show{display:flex}
+  .box{width:min(460px,100%);background:var(--panel);border:1px solid var(--line2)}
+  .box .top{display:flex;height:3px}
+  .box .top i{flex:1}
+  .box .top i:nth-child(1){background:var(--c1)} .box .top i:nth-child(2){background:var(--c2)}
+  .box .top i:nth-child(3){background:var(--c3)} .box .top i:nth-child(4){background:var(--c4)}
+  .box .in{padding:18px}
+  .box h3{font-size:15px;margin-bottom:8px}
+  .box ul{color:var(--dim);font-size:13px;margin:0 0 14px 18px}
+  .box label{display:flex;gap:8px;align-items:center;font-size:13px;cursor:pointer;margin-bottom:16px}
+  .box .row{display:flex;justify-content:flex-end;gap:8px}
+
+  @media (max-width:600px){
+    .rel{grid-template-columns:4px 1fr}
+    .rel .act{grid-column:2;border-left:0;border-top:1px solid var(--line);padding:10px 16px}
+    header nav a{margin-left:14px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</div>
+    <nav><a href="#releases">Releases</a><a href="#terms">Terms</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Admin Client</h1>
+    <p>A free client for Eaglercraft 1.12.2. Play it right here in your browser, or download the .html file.</p>
+    <div class="meta">
+      <span class="pill">Eaglercraft 1.12.2</span>
+      <span class="pill">single .html file</span>
+      <span class="pill">free</span>
+      <span class="pill">no password</span>
+    </div>
+  </section>
+
+  <h2 id="releases">Releases</h2>
+  <div id="list"></div>
+
+  <h2 id="terms">Terms of use</h2>
+  <div class="terms">
+    <ul>
+      <li>Don't share the file, the download link, or old versions.</li>
+      <li>Don't re-upload it or claim it as your own.</li>
+      <li>Access can be revoked at any time.</li>
+    </ul>
+  </div>
+</main>
+
+<footer><div class="wrap"><span>Admin Client</span><span id="yr"></span></div></footer>
+
+<div class="modal" id="agreeBox">
+  <div class="box">
+    <div class="top"><i></i><i></i><i></i><i></i></div>
+    <div class="in">
+      <h3 id="agreeTitle">Download</h3>
+      <ul>
+        <li>Don't share the file, the download link, or old versions.</li>
+        <li>Don't re-upload it or claim it as your own.</li>
+      </ul>
+      <label><input type="checkbox" id="agree"> I agree to the terms of use</label>
+      <div class="row">
+        <button class="btn" type="button" id="cancel">Cancel</button>
+        <button class="btn go" type="button" id="go" disabled>Download</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Add a release: one entry per version. Put the file in the downloads
+   folder with the same name. Missing files show as "Not out yet". */
+const RELEASES = [
+  { name: "Admin Client v2.2", tag: "free", file: "downloads/admin-client-v2.2-public.html",
+    notes: "Every feature and code unlocked. No activation code needed." },
+];
+
+const list = document.getElementById("list");
+const box = document.getElementById("agreeBox"), agree = document.getElementById("agree"),
+      go = document.getElementById("go");
+let pending = null, pendingMode = "play";
+
+RELEASES.forEach(r => {
+  const el = document.createElement("div");
+  el.className = "rel";
+  el.innerHTML =
+    '<div class="edge"></div>' +
+    '<div class="info"><div class="name"></div><div class="sub"></div><div class="notes"></div></div>' +
+    '<div class="act"><button class="btn play" type="button" disabled>Checking…</button><button class="btn dl" type="button" disabled style="margin-left:8px;display:none">Download</button></div>';
+  el.querySelector(".name").textContent = r.name;
+  el.querySelector(".sub").textContent = r.tag + " · " + r.file.split("/").pop();
+  el.querySelector(".notes").textContent = r.notes;
+  const b = el.querySelector(".play"), d = el.querySelector(".dl");
+  list.appendChild(el);
+  fetch(r.file, {method: "HEAD", cache: "no-store"})
+    .then(res => res.ok)
+    .catch(() => false)
+    .then(ok => {
+      if (ok) {
+        b.disabled = false; b.textContent = "Play"; b.classList.add("go");
+        d.disabled = false; d.style.display = "";
+        const ask = (mode) => { pending = r; pendingMode = mode; agree.checked = false; go.disabled = true;
+          go.textContent = mode === "play" ? "Play" : "Download";
+          document.getElementById("agreeTitle").textContent = r.name; box.classList.add("show"); };
+        b.onclick = () => ask("play");
+        d.onclick = () => ask("download");
+      } else {
+        b.textContent = "Not out yet";
+      }
+    });
+});
+
+agree.onchange = () => go.disabled = !agree.checked;
+document.getElementById("cancel").onclick = () => box.classList.remove("show");
+go.onclick = () => {
+  if (!pending) return;
+  if (pendingMode === "play") {
+    window.open(pending.file, "_blank");
+  } else {
+    const a = document.createElement("a");
+    a.href = pending.file; a.download = pending.file.split("/").pop();
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  box.classList.remove("show");
+};
+document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
