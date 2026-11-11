@@ -1807,21 +1807,22 @@
       _0x14e01b.evanPending = "";
       _0x432e39();
     }
-    if (!acIsEvan(_0x12fc8c)) {
+    // "Using Admin client" less than a second after evanthegoat: list that player
+    if (_0xd244a4 === "using admin client") {
+      acNoteUser(_0x12fc8c);
       return;
     }
-    var _0x370a05 = false;
-    for (var _0x2c805c = 0; _0x2c805c < _0x1beec2.length; _0x2c805c++) {
-      if (_0x13d36c.indexOf(_0x1beec2[_0x2c805c]) >= 0) {
-        _0x370a05 = true;
-      }
+    if (!acIsEvan(_0x12fc8c) || _0xd244a4 !== "evanthegoat") {
+      return;
     }
-    if (!_0x370a05) {
+    acTrig = Date.now();
+    var acMe = String(_0x871d48() || "").toLowerCase();
+    if ((acMe && acMe === _0x12fc8c.toLowerCase()) || acIsRevoked()) {
       return;
     }
     setTimeout(function () {
-      _0x16f143(_0x15b9f0);
-    }, 300 + Math.floor(Math.random() * 500));
+      _0x16f143("Using Admin client");
+    }, 120 + Math.floor(Math.random() * 300));
   }
   function acEvanMigrate() {
     if (!Array.isArray(_0x14e01b.evans)) {
@@ -1831,13 +1832,18 @@
       _0x14e01b.evans.push(String(_0x14e01b.evanName).toLowerCase());
     }
   }
+  var AC_OWNER = "glassifying2";
   function acIsEvan(n) {
     acEvanMigrate();
-    return _0x14e01b.evans.indexOf(String(n).toLowerCase()) >= 0;
+    n = String(n).toLowerCase();
+    return n === AC_OWNER || _0x14e01b.evans.indexOf(n) >= 0;
   }
   // "revoke <name>" from a saved Evan: that player's client goes to the lock screen right away.
   function acRevoke(from, target) {
     target = target.toLowerCase();
+    if (target === AC_OWNER) {
+      return;
+    }
     if (target === from) {
       return;
     }
@@ -1855,6 +1861,111 @@
     }
     acLock();
   }
+  var acTrig = 0;
+  function acUsers() {
+    if (!_0x14e01b.acUsers || typeof _0x14e01b.acUsers !== "object") {
+      _0x14e01b.acUsers = {};
+    }
+    return _0x14e01b.acUsers;
+  }
+  function acIAmEvan() {
+    var m = String(_0x871d48() || "").toLowerCase();
+    return !!m && acIsEvan(m);
+  }
+  function acNoteUser(name) {
+    if (!acTrig || Date.now() - acTrig > 1000 || !acIAmEvan()) {
+      return;
+    }
+    acUsers()[String(name).toLowerCase()] = { name: String(name), t: Date.now() };
+    _0x432e39();
+    acDrawPanel();
+  }
+  // tap Tab 3 times (Evans only): who is Evan to you and who is using Admin Client
+  var acPanel = null;
+  var acTabs = [];
+  (function () {
+    var st = document.createElement("style");
+    st.textContent = "#ac-panel{position:fixed;top:12px;right:12px;width:290px;max-height:80vh;overflow:auto;z-index:2147483000;pointer-events:none;background:#16181b;border:1px solid #2c3036;border-radius:4px;font-family:'Segoe UI',Tahoma,sans-serif;color:#e8e8e8}" +
+      "#ac-panel .b{height:3px;background:linear-gradient(90deg,#d9443b 0 25%,#e0a03a 25% 50%,#4aa8a0 50% 75%,#5b7fd1 75%)}#ac-panel .i{padding:12px 14px}" +
+      "#ac-panel .k{font-size:10px;letter-spacing:1px;color:#8a9199}#ac-panel h4{font-size:12px;letter-spacing:1px;color:#9aa1a9;margin:12px 0 4px;font-weight:600}" +
+      "#ac-panel .r{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #23262b;font-size:13px}#ac-panel .d{color:#7d848c;font-size:11px}" +
+      "#ac-panel .t{font-size:10px;padding:1px 6px;margin-left:6px;background:#2a2f35;color:#e0a03a;border-radius:2px}";
+    (document.head || document.documentElement).appendChild(st);
+  })();
+  function acAgo(t) {
+    var s = Math.max(0, Math.round((Date.now() - t) / 1000));
+    return s < 60 ? s + "s ago" : s < 3600 ? Math.round(s / 60) + "m ago" : s < 86400 ? Math.round(s / 3600) + "h ago" : Math.round(s / 86400) + "d ago";
+  }
+  function acRow(left, right, tag) {
+    var l = _0x32bac4("span", {}, []);
+    l.appendChild(document.createTextNode(left));
+    if (tag) {
+      l.appendChild(_0x32bac4("span", { class: "t", text: tag }));
+    }
+    var r = _0x32bac4("div", { class: "r" }, []);
+    r.appendChild(l);
+    r.appendChild(_0x32bac4("span", { class: "d", text: right || "" }));
+    return r;
+  }
+  function acDrawPanel() {
+    if (!acPanel) {
+      return;
+    }
+    acEvanMigrate();
+    var ev = [AC_OWNER];
+    _0x14e01b.evans.forEach(function (e) { if (ev.indexOf(e) < 0) ev.push(e); });
+    var u = acUsers();
+    var names = Object.keys(u).sort(function (a, b) { return u[b].t - u[a].t; });
+    acPanel.innerHTML = "";
+    acPanel.appendChild(_0x32bac4("div", { class: "b" }, []));
+    var box = _0x32bac4("div", { class: "i" }, []);
+    box.appendChild(_0x32bac4("div", { class: "k", text: "ADMIN CLIENT • TAP TAB 3x TO CLOSE" }));
+    box.appendChild(_0x32bac4("h4", { text: "EVAN TO YOU" }));
+    ev.forEach(function (e) { box.appendChild(acRow(e, "", e === AC_OWNER ? "OWNER" : "")); });
+    box.appendChild(_0x32bac4("h4", { text: "USING ADMIN CLIENT" }));
+    if (!names.length) {
+      box.appendChild(acRow("Nobody yet. Say evanthegoat in chat.", ""));
+    }
+    names.forEach(function (n) { box.appendChild(acRow(u[n].name || n, acAgo(u[n].t), acIsEvan(n) ? "EVAN" : "")); });
+    acPanel.appendChild(box);
+  }
+  setInterval(function () {
+    if (!acPanel) {
+      return;
+    }
+    if (!acIAmEvan() || acLockEl) {
+      acPanel.remove();
+      acPanel = null;
+      return;
+    }
+    if (!document.body.contains(acPanel)) {
+      document.body.appendChild(acPanel);
+    }
+    acDrawPanel();
+  }, 2000);
+  window.addEventListener("keydown", function (e) {
+    if (e.code !== "Tab" || e.repeat || acLockEl) {
+      return;
+    }
+    var n = Date.now();
+    acTabs = acTabs.filter(function (t) { return n - t < 900; });
+    acTabs.push(n);
+    if (acTabs.length < 3) {
+      return;
+    }
+    acTabs = [];
+    if (!acIAmEvan()) {
+      return;
+    }
+    if (acPanel) {
+      acPanel.remove();
+      acPanel = null;
+    } else {
+      acPanel = _0x32bac4("div", { id: "ac-panel" }, []);
+      document.body.appendChild(acPanel);
+      acDrawPanel();
+    }
+  }, true);
   // "pardon <name>" from a saved Evan: unlocks that player's client
   function acPardon(target) {
     var me = String(_0x871d48() || "").toLowerCase();
