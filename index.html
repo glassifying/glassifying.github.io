@@ -97,10 +97,10 @@
 <main class="wrap">
   <section class="intro">
     <h1>Admin Client</h1>
-    <p>A free client for Eaglercraft 1.12.2. Play it right here in your browser, or download the .html file.</p>
+    <p>A free client for Eaglercraft 1.12.2. Play it right here in your browser.</p>
     <div class="meta">
       <span class="pill">Eaglercraft 1.12.2</span>
-      <span class="pill">single .html file</span>
+      <span class="pill">plays in your browser</span>
       <span class="pill">free</span>
       <span class="pill">no password</span>
     </div>
@@ -112,7 +112,7 @@
   <h2 id="terms">Terms of use</h2>
   <div class="terms">
     <ul>
-      <li>Don't share the file, the download link, or old versions.</li>
+      <li>Don't share the link or old versions.</li>
       <li>Don't re-upload it or claim it as your own.</li>
       <li>Access can be revoked at any time.</li>
     </ul>
@@ -125,15 +125,15 @@
   <div class="box">
     <div class="top"><i></i><i></i><i></i><i></i></div>
     <div class="in">
-      <h3 id="agreeTitle">Download</h3>
+      <h3 id="agreeTitle">Play</h3>
       <ul>
-        <li>Don't share the file, the download link, or old versions.</li>
+        <li>Don't share the link or old versions.</li>
         <li>Don't re-upload it or claim it as your own.</li>
       </ul>
       <label><input type="checkbox" id="agree"> I agree to the terms of use</label>
       <div class="row">
         <button class="btn" type="button" id="cancel">Cancel</button>
-        <button class="btn go" type="button" id="go" disabled>Download</button>
+        <button class="btn go" type="button" id="go" disabled>Play</button>
       </div>
     </div>
   </div>
@@ -158,11 +158,11 @@ RELEASES.forEach(r => {
   el.innerHTML =
     '<div class="edge"></div>' +
     '<div class="info"><div class="name"></div><div class="sub"></div><div class="notes"></div></div>' +
-    '<div class="act"><button class="btn play" type="button" disabled>Checking…</button><button class="btn dl" type="button" disabled style="margin-left:8px;display:none">Download</button></div>';
+    '<div class="act"><button class="btn play" type="button" disabled>Checking…</button></div>';
   el.querySelector(".name").textContent = r.name;
-  el.querySelector(".sub").textContent = r.tag + " · " + r.file.split("/").pop();
+  el.querySelector(".sub").textContent = r.tag + " · plays in your browser";
   el.querySelector(".notes").textContent = r.notes;
-  const b = el.querySelector(".play"), d = el.querySelector(".dl");
+  const b = el.querySelector(".play");
   list.appendChild(el);
   fetch(r.file, {method: "HEAD", cache: "no-store"})
     .then(res => res.ok)
@@ -170,12 +170,10 @@ RELEASES.forEach(r => {
     .then(ok => {
       if (ok) {
         b.disabled = false; b.textContent = "Play"; b.classList.add("go");
-        d.disabled = false; d.style.display = "";
         const ask = (mode) => { pending = r; pendingMode = mode; agree.checked = false; go.disabled = true;
           go.textContent = mode === "play" ? "Play" : "Download";
           document.getElementById("agreeTitle").textContent = r.name; box.classList.add("show"); };
         b.onclick = () => ask("play");
-        d.onclick = () => ask("download");
       } else {
         b.textContent = "Not out yet";
       }
@@ -186,13 +184,7 @@ agree.onchange = () => go.disabled = !agree.checked;
 document.getElementById("cancel").onclick = () => box.classList.remove("show");
 go.onclick = () => {
   if (!pending) return;
-  if (pendingMode === "play") {
-    window.open(pending.file, "_blank");
-  } else {
-    const a = document.createElement("a");
-    a.href = pending.file; a.download = pending.file.split("/").pop();
-    document.body.appendChild(a); a.click(); a.remove();
-  }
+  window.open(pending.file, "_blank");
   box.classList.remove("show");
 };
 document.getElementById("yr").textContent = new Date().getFullYear();
