@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mods · Admin Client</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{
+    --bg:#111; --panel:#171717; --line:#2a2a2a; --line2:#3a3a3a;
+    --text:#dcdcdc; --dim:#8c8c8c; --mute:#5a5a5a;
+    --c1:#d9443b; --c2:#e0a03a; --c3:#4aa8a0; --c4:#5b7fd1;
+    --mono:Consolas,"Courier New",monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5}
+  a{color:var(--c3)}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px}
+
+  /* header */
+  header{border-bottom:1px solid var(--line)}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em;font-size:16px}
+  .bars{display:flex;gap:3px}
+  .bars i{width:4px;height:18px}
+  .bars i:nth-child(1){background:var(--c1)}
+  .bars i:nth-child(2){background:var(--c2);height:14px;margin-top:4px}
+  .bars i:nth-child(3){background:var(--c3);height:10px;margin-top:8px}
+  .bars i:nth-child(4){background:var(--c4);height:6px;margin-top:12px}
+  header nav a{color:var(--dim);text-decoration:none;margin-left:22px;font-size:13px}
+  header nav a:hover{color:var(--text)}
+
+  /* intro */
+  .intro{padding:44px 0 28px}
+  .intro h1{font-size:28px;font-weight:700}
+  .intro p{color:var(--dim);margin-top:6px;max-width:560px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .pill{font-family:var(--mono);font-size:11px;color:var(--dim);border:1px solid var(--line2);padding:3px 8px}
+
+  /* releases */
+  h2{font-size:12px;font-family:var(--mono);color:var(--mute);letter-spacing:.12em;text-transform:uppercase;
+     margin:26px 0 10px}
+  .rel{display:grid;grid-template-columns:4px 1fr auto;border:1px solid var(--line);background:var(--panel);margin-bottom:10px}
+  .rel .edge{background:var(--c1)}
+  .rel:nth-of-type(4n+2) .edge{background:var(--c2)}
+  .rel:nth-of-type(4n+3) .edge{background:var(--c3)}
+  .rel:nth-of-type(4n+4) .edge{background:var(--c4)}
+  .rel .info{padding:14px 16px}
+  .rel .name{font-weight:600}
+  .rel .sub{font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:2px}
+  .rel .notes{color:var(--dim);font-size:13px;margin-top:8px}
+  .rel .act{display:flex;align-items:center;padding:0 16px;border-left:1px solid var(--line)}
+  .btn{font-family:var(--sans);font-size:13px;font-weight:600;color:#fff;background:#2b2b2b;border:1px solid var(--line2);
+       padding:8px 16px;cursor:pointer}
+  .btn:hover{background:#353535}
+  .btn.go{background:var(--c1);border-color:var(--c1)}
+  .btn.go:hover{filter:brightness(1.1)}
+  .btn[disabled]{background:transparent;color:var(--mute);border-color:var(--line);cursor:not-allowed}
+
+  .terms{border:1px solid var(--line);padding:14px 16px;color:var(--dim);font-size:13px}
+  .terms li{margin-left:18px}
+
+  footer{border-top:1px solid var(--line);margin-top:40px}
+  footer .wrap{height:56px;display:flex;align-items:center;justify-content:space-between;color:var(--mute);font-size:12px}
+
+  /* agree dialog */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:20px}
+  .modal.show{display:flex}
+  .box{width:min(460px,100%);background:var(--panel);border:1px solid var(--line2)}
+  .box .top{display:flex;height:3px}
+  .box .top i{flex:1}
+  .box .top i:nth-child(1){background:var(--c1)} .box .top i:nth-child(2){background:var(--c2)}
+  .box .top i:nth-child(3){background:var(--c3)} .box .top i:nth-child(4){background:var(--c4)}
+  .box .in{padding:18px}
+  .box h3{font-size:15px;margin-bottom:8px}
+  .box ul{color:var(--dim);font-size:13px;margin:0 0 14px 18px}
+  .box label{display:flex;gap:8px;align-items:center;font-size:13px;cursor:pointer;margin-bottom:16px}
+  .box .row{display:flex;justify-content:flex-end;gap:8px}
+
+  @media (max-width:600px){
+    .rel{grid-template-columns:4px 1fr}
+    .rel .act{grid-column:2;border-left:0;border-top:1px solid var(--line);padding:10px 16px}
+    header nav a{margin-left:14px}
+  }
+
+  .lock{border:1px solid var(--line);background:var(--panel);margin-top:6px}
+  .lock .top{display:flex;height:3px}.lock .top i{flex:1}
+  .lock .top i:nth-child(1){background:var(--c1)}.lock .top i:nth-child(2){background:var(--c2)}
+  .lock .top i:nth-child(3){background:var(--c3)}.lock .top i:nth-child(4){background:var(--c4)}
+  .lock .in{padding:22px 18px;display:grid;gap:10px;max-width:420px}
+  .lock .r{display:flex;gap:8px}
+  .lock input{flex:1;background:#0d0d0d;border:1px solid var(--line2);color:var(--text);padding:8px 10px;font:inherit;outline:none}
+  .lock input:focus{border-color:var(--c3)}
+  .msg{font-size:12px;color:var(--dim);min-height:18px}.msg.bad{color:#ff8a80}
+  .tag{font-family:var(--mono);font-size:10px;padding:1px 6px;border:1px solid var(--line2);margin-left:8px;color:var(--dim);vertical-align:2px}
+  .tag.ok{color:var(--c3);border-color:var(--c3)}
+  .shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="logo"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</div>
+    <nav><a href="./">Releases</a><a href="mods.html">Mods</a></nav>
+  </div>
+</header>
+<main class="wrap">
+  <section class="intro">
+    <h1>Mods</h1>
+    <p>.js mods you drop into the client or a launcher instance. Locked: enter your password to open.</p>
+  </section>
+  <div id="gate" class="lock"><div class="top"><i></i><i></i><i></i><i></i></div><div class="in">
+    <b>Locked</b>
+    <div class="r"><input type="password" id="pw" placeholder="Password" autocomplete="off" spellcheck="false"><button class="btn go" id="go">Unlock</button></div>
+    <div class="msg" id="msg"></div>
+  </div></div>
+  <div id="out" style="display:none">
+    <h2>Mods</h2>
+    <div id="list"></div>
+    <h2>Notes</h2>
+    <div class="terms"><ul>
+      <li><b>Works in Admin Client</b> means it runs with the Admin Client ModAPI.</li>
+      <li><b>EaglerForge</b> mods are made for EaglerForge (Eaglercraft 1.8.8) and won't run in Admin Client yet.</li>
+      <li>Some of these are cheats. Only use them where the server allows it.</li>
+      <li>Don't share these files or this page.</li>
+    </ul></div>
+  </div>
+</main>
+<footer><div class="wrap"><span>Admin Client</span><span></span></div></footer>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)}, te=new TextEncoder(), td=new TextDecoder();
+  function d64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+  var bundle=null;
+  fetch("mods/bundle.json",{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){bundle=j}).catch(function(){$("msg").textContent="Couldn't load the mod list."});
+  async function tryPw(pw){
+    var base=await crypto.subtle.importKey("raw",te.encode(pw),"PBKDF2",false,["deriveKey"]);
+    for(var i=0;i<bundle.slots.length;i++){
+      var s=bundle.slots[i];
+      try{
+        var kek=await crypto.subtle.deriveKey({name:"PBKDF2",salt:d64(s.salt),iterations:bundle.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
+        var raw=await crypto.subtle.decrypt({name:"AES-GCM",iv:d64(s.iv)},kek,d64(s.key));
+        var k=await crypto.subtle.importKey("raw",raw,"AES-GCM",false,["decrypt"]);
+        return JSON.parse(td.decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:d64(bundle.iv)},k,d64(bundle.data))));
+      }catch(e){}
+    }
+    return null;
+  }
+  function dl(m){
+    var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([m.code],{type:"text/javascript"}));a.download=m.name;
+    document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000);
+  }
+  function show(mods){
+    $("gate").style.display="none";$("out").style.display="";
+    var L=$("list");
+    mods.forEach(function(m){
+      var row=document.createElement("div");row.className="rel";
+      var ok=m.works==="admin";
+      row.innerHTML='<div class="edge"></div><div class="info"><div class="name"></div><div class="sub"></div><div class="notes"></div></div><div class="act"><button class="btn">Download</button></div>';
+      row.querySelector(".name").textContent=m.name;
+      var t=document.createElement("span");t.className="tag"+(ok?" ok":"");t.textContent=ok?"WORKS IN ADMIN CLIENT":"EAGLERFORGE";
+      row.querySelector(".name").appendChild(t);
+      row.querySelector(".sub").textContent=(Math.max(1,Math.round(m.code.length/1024)))+" KB";
+      row.querySelector(".notes").textContent=m.desc;
+      row.querySelector("button").onclick=function(){dl(m)};
+      L.appendChild(row);
+    });
+  }
+  var busy=false;
+  async function go(){
+    var pw=$("pw").value.trim();
+    if(!pw||busy)return;
+    if(!bundle){$("msg").textContent="Still loading, try again in a second.";return}
+    busy=true;$("msg").className="msg";$("msg").textContent="Checking…";
+    var mods=await tryPw(pw);busy=false;
+    if(mods){show(mods);return}
+    $("pw").value="";$("msg").className="msg bad";$("msg").textContent="Wrong password.";
+    var g=$("gate");g.classList.remove("shake");void g.offsetWidth;g.classList.add("shake");
+  }
+  $("go").onclick=go;
+  $("pw").addEventListener("keydown",function(e){if(e.key==="Enter")go()});
+})();
+</script>
+</body>
+</html>
