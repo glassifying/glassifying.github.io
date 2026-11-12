@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found · glassifying</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/site.css">
+<style>
+  .nf{padding:70px 0 30px}
+  .code{font-family:var(--mono);font-size:64px;font-weight:700;line-height:1;letter-spacing:.04em}
+  .lines{display:flex;height:3px;margin:18px 0 22px;max-width:220px}
+  .lines i{flex:1}
+  .lines i:nth-child(1){background:var(--c1)} .lines i:nth-child(2){background:var(--c2)}
+  .lines i:nth-child(3){background:var(--c3)} .lines i:nth-child(4){background:var(--c4)}
+  .nf h1{font-size:22px}
+  .nf p{color:var(--dim);margin-top:6px;max-width:520px}
+  .nf .path{font-family:var(--mono);font-size:12px;color:var(--mute);margin-top:10px;word-break:break-all}
+  .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;align-items:center}
+  .bar{height:2px;background:var(--line);margin-top:22px;max-width:520px}
+  .bar i{display:block;height:100%;width:0;background:var(--c3);transition:width 1s linear}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="/"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <nav><a href="/">Releases</a><a href="/features.html">Features</a><a href="/changelog.html">Changelog</a><a href="/mods.html">Mods</a><a href="/skripts.html">Skripts</a><a href="/projects.html">More projects</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="nf">
+    <div class="code">404</div>
+    <div class="lines"><i></i><i></i><i></i><i></i></div>
+    <h1 id="head">This page doesn't exist</h1>
+    <p id="msg">Taking you to the home page in <b id="sec">5</b> seconds.</p>
+    <div class="path" id="path"></div>
+    <div class="bar"><i id="fill"></i></div>
+    <div class="acts">
+      <a class="btn go" id="now" href="/">Go now</a>
+      <button class="btn" id="stay" type="button">Stay here</button>
+      <a class="btn" href="/projects.html">More projects</a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>glassifying</span><span id="yr"></span></div></footer>
+
+<script>
+/* Common typos and old links go straight to the right page. */
+const KNOWN = {
+  "": "/", "home": "/", "index": "/", "releases": "/", "play": "/",
+  "features": "/features.html", "feature": "/features.html",
+  "changelog": "/changelog.html", "changes": "/changelog.html", "updates": "/changelog.html",
+  "mods": "/mods.html", "mod": "/mods.html",
+  "skripts": "/skripts.html", "skript": "/skripts.html", "scripts": "/skripts.html", "sk": "/skripts.html",
+  "projects": "/projects.html", "project": "/projects.html", "more": "/projects.html",
+  "pocket-notes": "/pocket-notes/", "pocketnotes": "/pocket-notes/", "notes": "/pocket-notes/"
+};
+
+const path = location.pathname;
+const key = path.toLowerCase().replace(/^\/+|\/+$/g, "").replace(/\.html?$/, "");
+let target = KNOWN[key] || "/";
+const exact = key in KNOWN;
+
+document.getElementById("path").textContent = path;
+document.getElementById("now").href = target;
+if (exact && target !== "/") {
+  const name = target.replace(/^\/|\.html$|\/$/g, "").replace("-", " ");
+  document.getElementById("head").textContent = "Did you mean " + name + "?";
+  document.getElementById("msg").innerHTML = 'Taking you there in <b id="sec">3</b> seconds.';
+}
+
+let left = exact && target !== "/" ? 3 : 5;
+const total = left;
+const fill = document.getElementById("fill");
+requestAnimationFrame(() => { fill.style.width = (100 / total) + "%"; });
+const t = setInterval(() => {
+  left--;
+  const s = document.getElementById("sec"); if (s) s.textContent = left;
+  fill.style.width = (100 * (total - left + 1) / total) + "%";
+  if (left <= 0) { clearInterval(t); location.replace(target); }
+}, 1000);
+
+document.getElementById("stay").onclick = () => {
+  clearInterval(t);
+  fill.style.transition = "none"; fill.style.width = "0";
+  document.getElementById("msg").textContent = "Okay, staying here. Use the buttons below to get back.";
+  document.getElementById("stay").remove();
+};
+document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
