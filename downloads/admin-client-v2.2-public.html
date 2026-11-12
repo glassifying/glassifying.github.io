@@ -399,7 +399,49 @@
 #ec-gui .ec-aclock-s{font-size:11px;opacity:.75;margin-bottom:8px;line-height:1.4}
 #ec-gui .ec-acrow{display:flex;gap:6px;margin-top:8px}
 
-    </style>
+    
+/* ===== Admin Client (free) — flat menu, hard colors only ===== */
+#ec-gui{background:rgba(0,0,0,.6)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+#ec-gui *{border-radius:0!important;box-shadow:none!important;text-shadow:none!important;transition:none!important}
+#ec-gui .panel{background:#101010!important;border:2px solid #000!important;width:min(720px,94vw)!important;height:min(500px,90vh)!important;font-family:"Segoe UI",Arial,sans-serif!important;position:relative;overflow:hidden}
+#ec-gui .panel::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#d9443b 0 25%,#e0a03a 25% 50%,#4aa8a0 50% 75%,#5b7fd1 75% 100%)}
+#ec-gui header{padding:14px 14px 10px!important;border-bottom:2px solid #1e1e1e!important;background:#101010!important}
+#ec-gui header h1{font-size:16px!important;letter-spacing:3px!important;color:#fff!important;background:none!important;-webkit-text-fill-color:#fff!important;animation:none!important;font-weight:800!important}
+#ec-gui header span{color:#777!important;font-size:11px!important}
+#ec-gui .btn{background:#1b1b1b!important;border:2px solid #2b2b2b!important;color:#eee!important;font-weight:600!important;padding:5px 10px!important;background-image:none!important}
+#ec-gui .btn:hover{border-color:var(--ec-accent)!important;color:#fff!important}
+#ec-gui .ec-sidebar{background:#0b0b0b!important;border-right:2px solid #1e1e1e!important;width:132px!important;padding:8px 0!important;gap:0!important}
+#ec-gui .ec-tab{background:none!important;border:0!important;border-left:4px solid transparent!important;color:#9a9a9a!important;padding:8px 12px!important;margin:0!important;text-align:left!important;font-weight:600!important;width:100%!important}
+#ec-gui .ec-tab:hover{color:#fff!important;background:#151515!important}
+#ec-gui .ec-tab.active{color:#fff!important;background:#181818!important;border-left-color:var(--ec-accent)!important}
+#ec-gui .ec-tab-secret{color:#e0a03a!important}
+#ec-gui .ec-tab-skin{color:#5b7fd1!important}
+#ec-gui .ec-content{background:#101010!important;padding:10px 16px 16px!important}
+#ec-gui .ec-cat-h{font-size:11px!important;letter-spacing:2px!important;color:#888!important;background:none!important;-webkit-text-fill-color:#888!important;border-bottom:2px solid #1e1e1e!important;padding:0 0 5px!important;margin:16px 0 8px!important;text-transform:uppercase}
+#ec-gui .ec-grid{gap:6px!important;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))!important}
+#ec-gui .mod{background:#161616!important;border:2px solid #222!important;border-left-width:4px!important;padding:8px 10px!important;min-height:0!important}
+#ec-gui .mod.on{border-left-color:var(--ec-accent)!important;background:#181818!important}
+#ec-gui .mod:hover{border-color:#333!important}
+#ec-gui .mod.on:hover{border-left-color:var(--ec-accent)!important}
+#ec-gui .mod .name{color:#fff!important;font-weight:700!important;font-size:13px!important}
+#ec-gui .mod .desc{color:#888!important;font-size:11px!important}
+#ec-gui .sw{width:14px!important;height:14px!important;min-width:14px!important;border:2px solid #555!important;background:transparent!important;padding:0!important}
+#ec-gui .sw::before,#ec-gui .sw::after,#ec-gui .sw *{display:none!important}
+#ec-gui .mod.on .sw{background:var(--ec-accent)!important;border-color:var(--ec-accent)!important}
+#ec-gui .opts{border-top:2px solid #222!important;margin-top:8px!important;padding-top:8px!important}
+#ec-gui input,#ec-gui select,#ec-gui textarea{background:#0a0a0a!important;border:2px solid #2b2b2b!important;color:#eee!important}
+#ec-gui input:focus,#ec-gui select:focus{border-color:var(--ec-accent)!important;outline:none!important}
+#ec-gui input[type=checkbox]{accent-color:var(--ec-accent)}
+#ec-gui .swatches button{width:20px!important;height:20px!important;border:2px solid #000!important;outline:2px solid transparent}
+#ec-gui .swatches button.sel{outline-color:#fff!important}
+#ec-gui footer{border-top:2px solid #1e1e1e!important;background:#0d0d0d!important;padding:8px 14px!important;color:#777!important}
+#ec-gui .ec-boost{background:#1b1b1b!important;border:2px solid var(--ec-accent)!important;color:#fff!important}
+#ec-gui .ec-cl{background:#101010!important}
+#ec-gui .ec-cl-rel{background:#161616!important;border:2px solid #222!important}
+#ec-gui .ec-cl-rel.latest{border-left:4px solid var(--ec-accent)!important}
+#ec-gui ::-webkit-scrollbar{width:8px}#ec-gui ::-webkit-scrollbar-thumb{background:#2b2b2b}#ec-gui ::-webkit-scrollbar-track{background:#0d0d0d}
+.ec-rainbow-text{animation:none!important;background:none!important;-webkit-text-fill-color:currentColor!important}
+</style>
     <script type="text/javascript">
 (function () {
   'use strict';
@@ -408,7 +450,7 @@
   var _0xf61bf5 = "adminClientV2Settings";
   var _0x5a8fe5 = "evanClientSettings";
   var _0x2fb21a = {
-    accent: "rainbow",
+    accent: "#4aa8a0",
     scale: 1,
     mods: {
       watermark: true,
@@ -489,7 +531,7 @@
     bestCombo: 0,
     bestJumpCombo: 0
   };
-  var _0x592867 = ["rainbow", "#d97757", "#5fb4ff", "#7cf29c", "#c38bff", "#ff5f6d", "#ffd166"];
+  var _0x592867 = ["#4aa8a0", "#d9443b", "#e0a03a", "#5b7fd1", "#ffffff"];
   function _0x2bb9f7(_0x5eaa88) {
     return JSON.parse(JSON.stringify(_0x5eaa88));
   }
@@ -524,6 +566,9 @@
       premium: true
     };
     _0x14e01b.mods.greenGui = false;
+    if (_0x592867.indexOf(_0x14e01b.accent) < 0) {
+      _0x14e01b.accent = "#4aa8a0";
+    }
   }
   acFree();
   function _0x432e39() {
@@ -2318,7 +2363,7 @@
           _0x14e01b.superMode = true;
           _0x432e39();
           _0x48a617();
-          _0x53302e("★ SUPER MODE UNLOCKED ★");
+          _0x53302e("Super Mode unlocked");
         } else if (_0x2b9cc6 === _0x533dad) {
           _0x1993c2();
         } else if (_0x2b9cc6 === _0x59aecc) {
@@ -3229,7 +3274,7 @@
   function _0x43928c() {
     return _0x32bac4("button", {
       class: "btn ec-boost",
-      text: "⚡ FPS Boost (turn on all)",
+      text: "FPS Boost (turn on all)",
       onclick: _0x223d93
     });
   }
@@ -3247,7 +3292,7 @@
       class: "ec-skindex"
     }, [_0x32bac4("div", {
       class: "ec-skindex-i",
-      text: "🧍"
+      text: ""
     }), _0x32bac4("h2", {
       text: "Skindex"
     }), _0x32bac4("p", {
@@ -3350,7 +3395,7 @@
       text: "v" + _0x397a1f + " • Eaglercraft 1.12.2"
     }), _0x32bac4("button", {
       class: "btn ec-cl-btn",
-      text: "📜 Changelog",
+      text: "Changelog",
       onclick: function () {
         _0x20bd38.changelog.classList.add("open");
         _0x20bd38.changelog.scrollTop = 0;
@@ -3378,7 +3423,7 @@
     });
     var _0x348710 = _0x32bac4("button", {
       class: "ec-tab ec-tab-skin",
-      text: "🧍 Skindex",
+      text: "Skindex",
       onclick: function () {
         _0x34260b("Skindex");
       }
@@ -3387,7 +3432,7 @@
     _0x20bd38.sidebar.appendChild(_0x348710);
     _0x20bd38.secretTab = _0x32bac4("button", {
       class: "ec-tab ec-tab-secret",
-      text: "★ Secret",
+      text: "Secret",
       onclick: function () {
         _0x34260b("Secret");
       }
