@@ -400,46 +400,42 @@
 #ec-gui .ec-acrow{display:flex;gap:6px;margin-top:8px}
 
     
-/* ===== Admin Client (free) — flat menu, hard colors only ===== */
-#ec-gui{background:rgba(0,0,0,.6)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-#ec-gui *{border-radius:0!important;box-shadow:none!important;text-shadow:none!important;transition:none!important}
-#ec-gui .panel{background:#101010!important;border:2px solid #000!important;width:min(720px,94vw)!important;height:min(500px,90vh)!important;font-family:"Segoe UI",Arial,sans-serif!important;position:relative;overflow:hidden}
-#ec-gui .panel::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#d9443b 0 25%,#e0a03a 25% 50%,#4aa8a0 50% 75%,#5b7fd1 75% 100%)}
-#ec-gui header{padding:14px 14px 10px!important;border-bottom:2px solid #1e1e1e!important;background:#101010!important}
-#ec-gui header h1{font-size:16px!important;letter-spacing:3px!important;color:#fff!important;background:none!important;-webkit-text-fill-color:#fff!important;animation:none!important;font-weight:800!important}
-#ec-gui header span{color:#777!important;font-size:11px!important}
-#ec-gui .btn{background:#1b1b1b!important;border:2px solid #2b2b2b!important;color:#eee!important;font-weight:600!important;padding:5px 10px!important;background-image:none!important}
-#ec-gui .btn:hover{border-color:var(--ec-accent)!important;color:#fff!important}
-#ec-gui .ec-sidebar{background:#0b0b0b!important;border-right:2px solid #1e1e1e!important;width:132px!important;padding:8px 0!important;gap:0!important}
-#ec-gui .ec-tab{background:none!important;border:0!important;border-left:4px solid transparent!important;color:#9a9a9a!important;padding:8px 12px!important;margin:0!important;text-align:left!important;font-weight:600!important;width:100%!important}
-#ec-gui .ec-tab:hover{color:#fff!important;background:#151515!important}
-#ec-gui .ec-tab.active{color:#fff!important;background:#181818!important;border-left-color:var(--ec-accent)!important}
-#ec-gui .ec-tab-secret{color:#e0a03a!important}
-#ec-gui .ec-tab-skin{color:#5b7fd1!important}
-#ec-gui .ec-content{background:#101010!important;padding:10px 16px 16px!important}
-#ec-gui .ec-cat-h{font-size:11px!important;letter-spacing:2px!important;color:#888!important;background:none!important;-webkit-text-fill-color:#888!important;border-bottom:2px solid #1e1e1e!important;padding:0 0 5px!important;margin:16px 0 8px!important;text-transform:uppercase}
-#ec-gui .ec-grid{gap:6px!important;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))!important}
-#ec-gui .mod{background:#161616!important;border:2px solid #222!important;border-left-width:4px!important;padding:8px 10px!important;min-height:0!important}
-#ec-gui .mod.on{border-left-color:var(--ec-accent)!important;background:#181818!important}
-#ec-gui .mod:hover{border-color:#333!important}
-#ec-gui .mod.on:hover{border-left-color:var(--ec-accent)!important}
-#ec-gui .mod .name{color:#fff!important;font-weight:700!important;font-size:13px!important}
-#ec-gui .mod .desc{color:#888!important;font-size:11px!important}
-#ec-gui .sw{width:14px!important;height:14px!important;min-width:14px!important;border:2px solid #555!important;background:transparent!important;padding:0!important}
-#ec-gui .sw::before,#ec-gui .sw::after,#ec-gui .sw *{display:none!important}
-#ec-gui .mod.on .sw{background:var(--ec-accent)!important;border-color:var(--ec-accent)!important}
-#ec-gui .opts{border-top:2px solid #222!important;margin-top:8px!important;padding-top:8px!important}
-#ec-gui input,#ec-gui select,#ec-gui textarea{background:#0a0a0a!important;border:2px solid #2b2b2b!important;color:#eee!important}
-#ec-gui input:focus,#ec-gui select:focus{border-color:var(--ec-accent)!important;outline:none!important}
-#ec-gui input[type=checkbox]{accent-color:var(--ec-accent)}
-#ec-gui .swatches button{width:20px!important;height:20px!important;border:2px solid #000!important;outline:2px solid transparent}
-#ec-gui .swatches button.sel{outline-color:#fff!important}
-#ec-gui footer{border-top:2px solid #1e1e1e!important;background:#0d0d0d!important;padding:8px 14px!important;color:#777!important}
-#ec-gui .ec-boost{background:#1b1b1b!important;border:2px solid var(--ec-accent)!important;color:#fff!important}
-#ec-gui .ec-cl{background:#101010!important}
-#ec-gui .ec-cl-rel{background:#161616!important;border:2px solid #222!important}
-#ec-gui .ec-cl-rel.latest{border-left:4px solid var(--ec-accent)!important}
-#ec-gui ::-webkit-scrollbar{width:8px}#ec-gui ::-webkit-scrollbar-thumb{background:#2b2b2b}#ec-gui ::-webkit-scrollbar-track{background:#0d0d0d}
+/* ===== Admin Client (free) — column click menu, hard colors only ===== */
+#ec-gui.cg{background:rgba(0,0,0,.35)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;font-family:"Segoe UI",Arial,sans-serif!important}
+#ec-gui.cg *{border-radius:0!important;box-shadow:none!important;text-shadow:none!important;transition:none!important;animation:none}
+#ec-gui.cg .cg-wrap{position:absolute;left:10px;top:10px;right:10px;bottom:34px;display:flex;flex-wrap:wrap;align-items:flex-start;align-content:flex-start;gap:8px;overflow:auto;pointer-events:none}
+#ec-gui.cg .cg-col{pointer-events:auto;width:176px;background:#0e0e0e;border:2px solid #000;user-select:none}
+#ec-gui.cg .cg-head{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:#151515;border-top:3px solid var(--cg);color:#fff;font-weight:800;font-size:11px;letter-spacing:2px;text-transform:uppercase}
+#ec-gui.cg .cg-c{color:#666;font-weight:700;letter-spacing:0}
+#ec-gui.cg .mod.cg-row,#ec-gui.cg .cg-row{display:block!important;background:none!important;border:0!important;border-top:1px solid #1b1b1b!important;padding:0!important;margin:0!important;min-height:0!important}
+#ec-gui.cg .cg-line{display:flex;justify-content:space-between;align-items:center;padding:5px 8px;cursor:pointer;color:#8c8c8c;font-size:12px;font-weight:600}
+#ec-gui.cg .cg-line:hover{background:#161616;color:#cfcfcf}
+#ec-gui.cg .cg-row.on .cg-line{color:#fff}
+#ec-gui.cg .cg-dot{width:8px;height:8px;border:2px solid #3a3a3a;display:block}
+#ec-gui.cg .cg-row.on .cg-dot{background:var(--cg);border-color:var(--cg)}
+#ec-gui.cg .cg-arrow{color:#555;font-weight:800}
+#ec-gui.cg .cg-row.x .cg-arrow{color:#fff}
+#ec-gui.cg .cg-more{display:none;padding:0 8px 8px;background:#121212;border-left:3px solid var(--cg,#333)}
+#ec-gui.cg .cg-set .cg-more{border-left-color:#555}
+#ec-gui.cg .cg-row.x .cg-more{display:block}
+#ec-gui.cg .cg-d{color:#8a8a8a;font-size:11px;line-height:1.4;padding-top:6px}
+#ec-gui.cg .opts{display:grid!important;gap:6px!important;padding:6px 0 0!important;margin:0!important;border:0!important;font-size:11px!important;color:#bbb!important;grid-template-columns:1fr!important}
+#ec-gui.cg .opts label{display:grid;gap:3px;color:#aaa}
+#ec-gui.cg input,#ec-gui.cg select,#ec-gui.cg textarea{width:100%;box-sizing:border-box;background:#0a0a0a!important;border:2px solid #2b2b2b!important;color:#eee!important;font:inherit;font-size:11px;padding:3px 5px}
+#ec-gui.cg input[type=checkbox]{width:auto;accent-color:var(--ec-accent)}
+#ec-gui.cg input:focus,#ec-gui.cg select:focus,#ec-gui.cg textarea:focus{border-color:var(--ec-accent)!important;outline:none!important}
+#ec-gui.cg .btn{background:#1b1b1b!important;border:2px solid #2b2b2b!important;color:#eee!important;font-weight:600!important;font-size:11px!important;padding:4px 8px!important;background-image:none!important;cursor:pointer}
+#ec-gui.cg .btn:hover{border-color:var(--ec-accent)!important}
+#ec-gui.cg .swatches{display:flex;gap:4px}
+#ec-gui.cg .swatches button{width:18px!important;height:18px!important;border:2px solid #000!important;outline:2px solid transparent;cursor:pointer}
+#ec-gui.cg .swatches button.sel{outline-color:#fff!important}
+#ec-gui.cg .cg-foot{position:absolute;left:0;right:0;bottom:0;height:26px;display:flex;align-items:center;gap:10px;padding:0 10px;background:#0b0b0b;border-top:2px solid #000;font-size:11px;color:#6d6d6d}
+#ec-gui.cg .cg-brand{color:#fff!important;font-weight:800;letter-spacing:2px;background:none!important;-webkit-text-fill-color:#fff!important}
+#ec-gui.cg .cg-h{margin-left:auto}
+#ec-gui.cg .ec-cl{background:#101010!important;border:2px solid #000!important}
+#ec-gui.cg .ec-cl-rel{background:#161616!important;border:2px solid #222!important}
+#ec-gui.cg .ec-cl-rel.latest{border-left:4px solid var(--ec-accent)!important}
+#ec-gui.cg ::-webkit-scrollbar{width:8px;height:8px}#ec-gui.cg ::-webkit-scrollbar-thumb{background:#2b2b2b}#ec-gui.cg ::-webkit-scrollbar-track{background:#0d0d0d}
 .ec-rainbow-text{animation:none!important;background:none!important;-webkit-text-fill-color:currentColor!important}
 </style>
     <script type="text/javascript">
@@ -566,6 +562,7 @@
       premium: true
     };
     _0x14e01b.mods.greenGui = false;
+    _0x14e01b.acHash = "";
     if (_0x592867.indexOf(_0x14e01b.accent) < 0) {
       _0x14e01b.accent = "#4aa8a0";
     }
@@ -2115,8 +2112,9 @@
     });
     function _0x351df5() {
       _0x5893ef.innerHTML = "";
-      if (!_0x14e01b.acHash) {
+      if (true) {
         _0x5893ef.appendChild(_0x21acb5());
+        return;
         var _0x5088f7 = _0x32bac4("input", {
           type: "password",
           placeholder: "Create a personal code",
@@ -2558,7 +2556,7 @@
   }
   var _0x20b7eb = [{
     v: "2.2",
-    items: ["Chat Blocker (Utility): add names to hide their chat", "Activation code is now hidden as you type it", "Auto Command can be locked behind your own personal code", "Changelog now opens automatically after an update", "New tabbed menu: All, HUD, PvP, Utility, FPS, Settings", "Skindex tab with a link to minecraftskins.com", "Sneak Toggle (works even while chat is open)", "Potion Timers on the right side of the screen", "Zoom: hold C to zoom in (2x, 4x or 8x)", "Hitboxes toggle (F3 + B) and Chunk Borders toggle (F3 + G)"]
+    items: ["Chat Blocker (Utility): add names to hide their chat", "Activation code is now hidden as you type it", "Changelog now opens automatically after an update", "New click menu: left-click a module to turn it on or off, right-click it for details and settings", "Sneak Toggle (works even while chat is open)", "Potion Timers on the right side of the screen", "Zoom: hold C to zoom in (2x, 4x or 8x)", "Hitboxes toggle (F3 + B) and Chunk Borders toggle (F3 + G)"]
   }, {
     v: "2.1",
     items: ["Reset settings now needs a second click to confirm", "Menu layout tweaks"]
@@ -3307,6 +3305,10 @@
   }
   function _0x34260b(_0x10ff05) {
     _0x16b46c = _0x10ff05;
+    if (_0x46bf13 && _0x46bf13.classList.contains("cg")) {
+      cg_render();
+      return;
+    }
     var _0x5aef72 = _0x20bd38.content;
     _0x5aef72.innerHTML = "";
     Array.prototype.forEach.call(_0x20bd38.sidebar.querySelectorAll(".ec-tab"), function (_0x1fa66e) {
@@ -3369,7 +3371,116 @@
   function _0x31315f() {
     _0x46bf13.classList.toggle("ec-matrix", _0x16b46c === "Secret" && !!_0x14e01b.superMode && !!_0x14e01b.mods.greenGui);
   }
+  // ===================== free v2.2: column click menu =====================
+  var CG_COLORS = { HUD: "#4aa8a0", PvP: "#d9443b", Utility: "#e0a03a", FPS: "#5b7fd1", Secret: "#ffffff", Settings: "#9a9a9a" };
+  var cgOpen = {};
+  function cgToggle(m) {
+    _0x14e01b.mods[m.id] = !_0x14e01b.mods[m.id];
+    _0x48a617();
+    if (m.id === "hitboxes") _0x469f00("KeyB");
+    if (m.id === "chunkBorders") _0x469f00("KeyG");
+    cgCounts();
+  }
+  function cgRow(m, color) {
+    var row = _0x32bac4("div", { class: "mod cg-row" });
+    row.dataset.mod = m.id;
+    row.style.setProperty("--cg", color);
+    var line = _0x32bac4("div", { class: "cg-line" }, [_0x32bac4("span", { class: "cg-n", text: m.name }), _0x32bac4("i", { class: "cg-dot" })]);
+    var more = _0x32bac4("div", { class: "cg-more" });
+    function fill() {
+      more.innerHTML = "";
+      if (m.desc) more.appendChild(_0x32bac4("div", { class: "cg-d", text: m.desc }));
+      if (m.opts) { var o = m.opts(); if (o) more.appendChild(o); }
+    }
+    if (cgOpen[m.id]) { row.classList.add("x"); fill(); }
+    line.addEventListener("mousedown", function (e) {
+      if (e.button === 0) { cgToggle(m); }
+      else if (e.button === 2) {
+        cgOpen[m.id] = !cgOpen[m.id];
+        row.classList.toggle("x", !!cgOpen[m.id]);
+        if (cgOpen[m.id]) fill(); else more.innerHTML = "";
+        _0x277cad();
+      }
+    });
+    row.appendChild(line);
+    row.appendChild(more);
+    return row;
+  }
+  function cgCol(title, color, rows, count) {
+    var head = _0x32bac4("div", { class: "cg-head" }, [_0x32bac4("span", { text: title }), _0x32bac4("span", { class: "cg-c" })]);
+    var col = _0x32bac4("div", { class: "cg-col" }, [head].concat(rows));
+    col.style.setProperty("--cg", color);
+    if (count) col.dataset.cat = title;
+    return col;
+  }
+  function cgCounts() {
+    if (!_0x20bd38.content) return;
+    Array.prototype.forEach.call(_0x20bd38.content.querySelectorAll(".cg-col[data-cat]"), function (c) {
+      var all = c.querySelectorAll(".cg-row").length, on = 0;
+      Array.prototype.forEach.call(c.querySelectorAll(".cg-row"), function (r) { if (_0x14e01b.mods[r.dataset.mod]) on++; });
+      var el = c.querySelector(".cg-c");
+      if (el) el.textContent = on + "/" + all;
+    });
+  }
+  function cgSetting(name, build) {
+    var row = _0x32bac4("div", { class: "cg-row cg-set" });
+    var key = "set:" + name;
+    var line = _0x32bac4("div", { class: "cg-line" }, [_0x32bac4("span", { class: "cg-n", text: name }), _0x32bac4("span", { class: "cg-arrow", text: "+" })]);
+    var more = _0x32bac4("div", { class: "cg-more" });
+    function fill() { more.innerHTML = ""; more.appendChild(build()); }
+    if (cgOpen[key]) { row.classList.add("x"); fill(); }
+    line.addEventListener("mousedown", function (e) {
+      if (e.button !== 0 && e.button !== 2) return;
+      cgOpen[key] = !cgOpen[key];
+      row.classList.toggle("x", !!cgOpen[key]);
+      if (cgOpen[key]) fill(); else more.innerHTML = "";
+      _0x277cad();
+    });
+    row.appendChild(line);
+    row.appendChild(more);
+    return row;
+  }
+  function cg_render() {
+    var c = _0x20bd38.content;
+    c.innerHTML = "";
+    ["HUD", "PvP", "Utility", "FPS"].forEach(function (cat) {
+      var mods = _0x5c86bd.filter(function (m) { return m.tab === cat; });
+      if (!mods.length) return;
+      c.appendChild(cgCol(cat, CG_COLORS[cat], mods.map(function (m) { return cgRow(m, CG_COLORS[cat]); }), true));
+    });
+    if (_0x3e5c38 && _0x17c8fc()) {
+      var sec = _0x5c86bd.filter(function (m) { return m.tab === "Secret" && _0x26723b(m.lock); });
+      if (sec.length) c.appendChild(cgCol("Secret", CG_COLORS.Secret, sec.map(function (m) { return cgRow(m, CG_COLORS.Secret); }), true));
+    }
+    c.appendChild(cgCol("Settings", CG_COLORS.Settings, [
+      cgSetting("Theme", function () { var t = _0x13677a(); var o = t.querySelector(".opts"); return o || t; }),
+      cgSetting("Code", function () { return _0x32bac4("div", { class: "opts" }, [_0x53cf30()]); }),
+      cgSetting("Changelog", function () {
+        setTimeout(function () { _0x20bd38.changelog.classList.add("open"); _0x20bd38.changelog.scrollTop = 0; cgOpen["set:Changelog"] = false; cg_render(); }, 0);
+        return _0x32bac4("div");
+      }),
+      cgSetting("Reset", function () { return _0x32bac4("div", { class: "opts" }, [_0x276ffb()]); })
+    ], false));
+    cgCounts();
+    _0x277cad();
+  }
+  function cg_build() {
+    _0x20bd38.guiTitle = _0x32bac4("span", { class: "cg-brand", text: "ADMIN CLIENT" });
+    _0x20bd38.secretTab = null;
+    _0x20bd38.sidebar = _0x32bac4("div");
+    _0x20bd38.content = _0x32bac4("div", { class: "cg-wrap" });
+    var foot = _0x32bac4("div", { class: "cg-foot" }, [
+      _0x20bd38.guiTitle,
+      _0x32bac4("span", { class: "cg-v", text: "v" + _0x397a1f }),
+      _0x32bac4("span", { class: "cg-h", text: "Left-click: on/off  \u00b7  Right-click: details  \u00b7  Right Shift: close" })
+    ]);
+    var gui = _0x32bac4("div", { id: "ec-gui", class: "cg" }, [_0x20bd38.content, foot, _0x4997a8()]);
+    gui.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+    gui.addEventListener("mousedown", function (e) { if (e.target === gui) _0x92632(false); });
+    return gui;
+  }
   function _0x10dbb8() {
+    return cg_build();
     _0x20bd38.guiTitle = _0x32bac4("h1", {
       text: "ADMIN CLIENT"
     });

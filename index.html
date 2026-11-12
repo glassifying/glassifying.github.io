@@ -90,7 +90,7 @@
 <header>
   <div class="wrap">
     <div class="logo"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</div>
-    <nav><a href="#releases">Releases</a><a href="mods.html">Mods</a><a href="#terms">Terms</a></nav>
+    <nav><a href="#releases">Releases</a><a href="mods.html">Mods</a></nav>
   </div>
 </header>
 
@@ -109,35 +109,9 @@
   <h2 id="releases">Releases</h2>
   <div id="list"></div>
 
-  <h2 id="terms">Terms of use</h2>
-  <div class="terms">
-    <ul>
-      <li>Don't share the link or old versions.</li>
-      <li>Don't re-upload it or claim it as your own.</li>
-      <li>Access can be revoked at any time.</li>
-    </ul>
-  </div>
 </main>
 
 <footer><div class="wrap"><span>Admin Client</span><span id="yr"></span></div></footer>
-
-<div class="modal" id="agreeBox">
-  <div class="box">
-    <div class="top"><i></i><i></i><i></i><i></i></div>
-    <div class="in">
-      <h3 id="agreeTitle">Play</h3>
-      <ul>
-        <li>Don't share the link or old versions.</li>
-        <li>Don't re-upload it or claim it as your own.</li>
-      </ul>
-      <label><input type="checkbox" id="agree"> I agree to the terms of use</label>
-      <div class="row">
-        <button class="btn" type="button" id="cancel">Cancel</button>
-        <button class="btn go" type="button" id="go" disabled>Play</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 /* Add a release: one entry per version. Put the file in the downloads
@@ -148,9 +122,6 @@ const RELEASES = [
 ];
 
 const list = document.getElementById("list");
-const box = document.getElementById("agreeBox"), agree = document.getElementById("agree"),
-      go = document.getElementById("go");
-let pending = null, pendingMode = "play";
 
 RELEASES.forEach(r => {
   const el = document.createElement("div");
@@ -170,23 +141,13 @@ RELEASES.forEach(r => {
     .then(ok => {
       if (ok) {
         b.disabled = false; b.textContent = "Play"; b.classList.add("go");
-        const ask = (mode) => { pending = r; pendingMode = mode; agree.checked = false; go.disabled = true;
-          go.textContent = mode === "play" ? "Play" : "Download";
-          document.getElementById("agreeTitle").textContent = r.name; box.classList.add("show"); };
-        b.onclick = () => ask("play");
+        b.onclick = () => window.open(r.file, "_blank");
       } else {
         b.textContent = "Not out yet";
       }
     });
 });
 
-agree.onchange = () => go.disabled = !agree.checked;
-document.getElementById("cancel").onclick = () => box.classList.remove("show");
-go.onclick = () => {
-  if (!pending) return;
-  window.open(pending.file, "_blank");
-  box.classList.remove("show");
-};
 document.getElementById("yr").textContent = new Date().getFullYear();
 </script>
 </body>
