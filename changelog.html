@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog · Admin Client</title>
+<meta name="description" content="What changed in each Admin Client version">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="./"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <nav><a href="./">Releases</a><a href="features.html">Features</a><a href="changelog.html" class="on">Changelog</a><a href="mods.html">Mods</a><a href="skripts.html">Skripts</a><a href="projects.html">More projects</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Changelog</h1>
+    <p>What changed in each version, newest first.</p>
+  </section>
+  <div id="out"></div>
+</main>
+
+<footer><div class="wrap"><span>Admin Client</span><span id="yr"></span></div></footer>
+
+<script>
+/* Add a version: put a new entry at the top of this list. */
+const CHANGELOG = [
+  { v: "2.2", label: "latest", items: [
+    "Chat Blocker (Utility): add names to hide their chat",
+    "Changelog now opens automatically after an update",
+    "New click menu: left-click a module to turn it on or off, right-click it for details and settings",
+    "Sneak Toggle (works even while chat is open)",
+    "Potion Timers on the right side of the screen",
+    "Zoom: hold C to zoom in (2x, 4x or 8x)",
+    "Hitboxes toggle (F3 + B) and Chunk Borders toggle (F3 + G)"
+  ]},
+  { v: "2.1", items: [
+    "Reset settings now needs a second click to confirm",
+    "Menu layout tweaks"
+  ]},
+  { v: "2", items: [
+    "Renamed to Admin Client",
+    "Potion Timers: your effects and time left on the right side",
+    "Right Shift works as a normal Shift key while typing in chat",
+    "Performance tab: Clear Weather, Low Particles, No Clouds, Fast Graphics and more",
+    "Big lag fix for the HUD"
+  ]},
+  { v: "1", items: [
+    "First release",
+    "Watermark, ArrayList, Info panel and Keystrokes",
+    "Fullbright, Kill Effects, Combo counter and Kill Sound",
+    "Theme colors and HUD size"
+  ]}
+];
+
+const out = document.getElementById("out");
+CHANGELOG.forEach((c, i) => {
+  const el = document.createElement("div");
+  el.className = "card k" + (i % 4 + 1);
+  el.innerHTML = '<div class="edge"></div><div class="info"><div class="name"></div><ul></ul></div>';
+  const name = el.querySelector(".name");
+  name.textContent = "v" + c.v;
+  if (c.label) { const t = document.createElement("span"); t.className = "tag v3"; t.textContent = c.label; name.appendChild(t); }
+  const ul = el.querySelector("ul");
+  c.items.forEach(x => { const li = document.createElement("li"); li.textContent = x; ul.appendChild(li); });
+  out.appendChild(el);
+});
+document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

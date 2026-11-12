@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Features · Admin Client</title>
+<meta name="description" content="Everything in Admin Client for Eaglercraft 1.12.2">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="./"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <nav><a href="./">Releases</a><a href="features.html" class="on">Features</a><a href="changelog.html">Changelog</a><a href="mods.html">Mods</a><a href="skripts.html">Skripts</a><a href="projects.html">More projects</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Features</h1>
+    <p>What's in the free version. Press Right Shift in game to open the menu, left-click a module to turn it on, right-click it for settings.</p>
+  </section>
+  <div id="out"></div>
+</main>
+
+<footer><div class="wrap"><span>Admin Client</span><span id="yr"></span></div></footer>
+
+<script>
+const FEATURES = {
+  HUD: [
+    ["Watermark", "Admin Client logo, top left"],
+    ["ArrayList", "Your enabled modules, top right"],
+    ["Info", "FPS, CPS, clock and kills"],
+    ["Keystrokes", "WASD, mouse and space display"],
+    ["Clean HUD", "Hides Eaglercraft's own top-left text"]
+  ],
+  PvP: [
+    ["Potion Timers", "Your active effects and time left"],
+    ["Kill Effects", "Banner when you kill a mob"],
+    ["Combo", "Counts hits in a row"],
+    ["Kill Sound", "Ding on every kill"]
+  ],
+  Utility: [
+    ["Zoom", "Hold C to zoom in (2x, 4x or 8x)"],
+    ["Fullbright", "See clearly in the dark and in caves"],
+    ["Sneak Toggle", "Press a key to toggle sneak, even in chat"],
+    ["Chat Blocker", "Hide chat from players you add"],
+    ["Hitboxes", "Show entity hitboxes (F3 + B)"],
+    ["Chunk Borders", "Show chunk borders (F3 + G)"],
+    ["Toasts", "Little notifications"]
+  ],
+  FPS: [
+    ["Clear Weather", "No rain or snow"],
+    ["Low Particles", "Minimal particles"],
+    ["No Clouds", "Turns clouds off"],
+    ["Fast Graphics", "Fast leaves, simpler rendering"],
+    ["No Smooth Lighting", "Cheaper block lighting"],
+    ["No Entity Shadows", "Skips shadows under mobs"],
+    ["No Fog", "Removes distance fog"],
+    ["Render Distance Cap", "Limits how far chunks load"]
+  ],
+  Extras: [
+    ["Health View", "Health of the player or mob you look at or hit"],
+    ["Armor HUD", "Your armor and its durability"],
+    ["NoRender", "Stop seeing fire, liquid fog, nausea and more"],
+    ["Auto Command", "Runs commands when you join a server"],
+    ["Macros", "Press a key to send a command"]
+  ]
+};
+
+const out = document.getElementById("out");
+Object.keys(FEATURES).forEach(sec => {
+  const h = document.createElement("h2");
+  h.textContent = sec + " · " + FEATURES[sec].length;
+  const g = document.createElement("div");
+  g.className = "grid sec-" + sec;
+  FEATURES[sec].forEach(([name, desc]) => {
+    const f = document.createElement("div");
+    f.className = "feat";
+    const b = document.createElement("b"); b.textContent = name;
+    const s = document.createElement("span"); s.textContent = desc;
+    f.append(b, s);
+    g.appendChild(f);
+  });
+  out.append(h, g);
+});
+document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pocket Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: two-pane notebook — note list on the left, writing surface on the right; stacks to one pane on phones */
+:root{
+  --bg:#f3f5f7; --panel:#ffffff; --ink:#18202a; --muted:#5d6b7a; --line:#dde3e9;
+  --accent:#1f7a8c; --accent-soft:#e1f0f3; --pin:#c98a1b; --danger:#b3392f;
+  --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1418; --panel:#161d23; --ink:#e4eaef; --muted:#8b9aa8; --line:#26313a;
+  --accent:#4fb3c6; --accent-soft:#183038; --pin:#e0a944; --danger:#e0675c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1418; --panel:#161d23; --ink:#e4eaef; --muted:#8b9aa8; --line:#26313a;
+  --accent:#4fb3c6; --accent-soft:#183038; --pin:#e0a944; --danger:#e0675c; color-scheme:dark}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px}
+*{box-sizing:border-box}
+.app{height:100%;display:grid;grid-template-columns:300px 1fr;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px;gap:16px}
+.side,.editor{background:var(--panel);border:1px solid var(--line);border-radius:12px;min-height:0;min-width:0;display:flex;flex-direction:column}
+.side-head{padding:16px;display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.brand h1{font-size:18px;font-weight:800;margin:0;letter-spacing:-.01em}
+.count{font-family:var(--mono);font-size:12px;color:var(--muted)}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 12px}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.primary{background:var(--accent);border-color:var(--accent);color:var(--panel);font-weight:700}
+#search{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.list{list-style:none;margin:0;padding:8px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:2px}
+.item{padding:10px 12px;border-radius:8px;cursor:pointer;display:flex;flex-direction:column;gap:3px;border:1px solid transparent}
+.item:hover{background:var(--bg)}
+.item.active{background:var(--accent-soft);border-color:var(--accent)}
+.item-title{font-weight:700;display:flex;gap:6px;align-items:center;min-width:0}
+.item-title span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item-snip{color:var(--muted);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item-date{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.pin-dot{color:var(--pin);flex:none}
+.tag{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 4px;flex:none}
+.empty{color:var(--muted);padding:24px 12px;text-align:center;font-size:14px}
+.ed-head{display:flex;gap:8px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ed-head .meta{font-family:var(--mono);font-size:12px;color:var(--muted);margin-right:auto}
+.back{display:none}
+#title{border:0;background:transparent;color:var(--ink);font:800 26px/1.2 var(--sans);letter-spacing:-.02em;padding:20px 24px 8px;width:100%}
+#body{flex:1;border:0;resize:none;background:transparent;color:var(--ink);font:400 16px/1.7 var(--sans);padding:8px 24px 24px;width:100%;max-width:72ch}
+#title:focus,#body:focus{outline:none}
+.ed-foot{padding:10px 16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pinned{color:var(--pin);border-color:var(--pin)}
+.confirm{display:flex;gap:8px;align-items:center;font-size:13px}
+.danger{color:var(--danger);border-color:var(--danger)}
+.row{display:flex;gap:8px}
+.row button{flex:1}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:10px 16px;border-radius:8px;font-size:14px;max-width:calc(100% - 32px);z-index:5}
+.blank{flex:1;display:grid;place-items:center;color:var(--muted);padding:24px;text-align:center}
+@media (max-width:720px){
+  .app{grid-template-columns:1fr}
+  .app.editing .side{display:none}
+  .app:not(.editing) .editor{display:none}
+  .back{display:inline-block}
+  #title{font-size:22px;padding:16px 16px 6px}
+  #body{padding:6px 16px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <aside class="side">
+    <div class="side-head">
+      <div class="brand"><h1>Pocket Notes</h1><span class="count" id="count"></span></div>
+      <button class="primary" id="new">+ New note</button>
+      <div class="row">
+        <button id="saveAll" title="Download every note as one file you can share">Save all</button>
+        <button id="loadBtn" title="Open a notes file someone shared with you">Load</button>
+      </div>
+      <input type="file" id="fileIn" accept=".json,.txt,.md" multiple hidden>
+      <input id="search" type="search" placeholder="Search notes" aria-label="Search notes">
+    </div>
+    <ul class="list" id="list"></ul>
+  </aside>
+  <main class="editor" id="editor">
+    <div class="ed-head">
+      <button class="back" id="back">← Notes</button>
+      <span class="meta" id="meta"></span>
+      <button id="dlBtn">Download</button>
+      <button id="pinBtn">Pin</button>
+      <span id="delWrap"><button id="delBtn">Delete</button></span>
+    </div>
+    <input id="title" placeholder="Title" aria-label="Note title">
+    <textarea id="body" placeholder="Start writing…" aria-label="Note text"></textarea>
+    <div class="ed-foot"><span id="words">0 words</span><span id="saved">Saved</span></div>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+<script>
+const KEY='pocket-notes-v1';
+const now=()=>Date.now();
+const examples=[
+  {id:'ex1',title:'Welcome to Pocket Notes',body:'This is an example note.\n\n• Click "+ New note" to start one.\n• Everything saves automatically as you type.\n• Pin important notes to keep them at the top.\n• Use the search box to find anything.\n\nNotes are stored in this browser only, so they will not show up on other devices.',pinned:true,example:true,updated:now()},
+  {id:'ex2',title:'Example: to-do',body:'- Reply to messages\n- Finish homework\n- Back up Minecraft worlds',pinned:false,example:true,updated:now()-3600e3}
+];
+let notes, current=null, query='';
+function load(){try{const s=localStorage.getItem(KEY);notes=s?JSON.parse(s):examples.slice()}catch(e){notes=examples.slice()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(notes));setSaved('Saved')}catch(e){setSaved('Not saved: browser storage is blocked')}}
+const $=id=>document.getElementById(id);
+function setSaved(t){$('saved').textContent=t}
+function fmt(t){const d=new Date(t);const today=new Date().toDateString()===d.toDateString();return today?d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}):d.toLocaleDateString([], {month:'short',day:'numeric'})}
+function sorted(){return notes.filter(n=>!query||(n.title+' '+n.body).toLowerCase().includes(query)).sort((a,b)=>(b.pinned-a.pinned)||(b.updated-a.updated))}
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function renderList(){
+  const items=sorted();
+  $('count').textContent=notes.length+(notes.length===1?' note':' notes');
+  $('list').innerHTML=items.length?items.map(n=>`<li class="item${current&&n.id===current.id?' active':''}" data-id="${n.id}" tabindex="0">
+    <div class="item-title">${n.pinned?'<span class="pin-dot" aria-label="Pinned">●</span>':''}<span>${esc(n.title||'Untitled')}</span>${n.example?'<em class="tag">Example</em>':''}</div>
+    <div class="item-snip">${esc(n.body.split('\n').find(l=>l.trim())||'No text')}</div>
+    <div class="item-date">${fmt(n.updated)}</div></li>`).join(''):`<li class="empty">${query?'No notes match "'+esc(query)+'".':'No notes yet. Click "+ New note" to write one.'}</li>`;
+}
+function renderEditor(){
+  const has=!!current;
+  ['title','body'].forEach(id=>$(id).disabled=!has);
+  $('title').value=has?current.title:''; $('body').value=has?current.body:'';
+  $('pinBtn').textContent=has&&current.pinned?'Unpin':'Pin';
+  $('pinBtn').classList.toggle('pinned',has&&current.pinned);
+  $('meta').textContent=has?'Edited '+fmt(current.updated):'No note selected';
+  resetDelete(); countWords();
+}
+function countWords(){const w=($('body').value.match(/\S+/g)||[]).length;$('words').textContent=w+(w===1?' word':' words')}
+function open(id){current=notes.find(n=>n.id===id)||null;renderEditor();renderList();$('app').classList.add('editing')}
+function touch(){current.updated=now();current.example=false;setSaved('Saving…');clearTimeout(touch.t);touch.t=setTimeout(()=>{save();renderList();$('meta').textContent='Edited '+fmt(current.updated)},300)}
+$('new').onclick=()=>{const n={id:'n'+now(),title:'',body:'',pinned:false,updated:now()};notes.push(n);save();query='';$('search').value='';open(n.id);$('title').focus()};
+$('list').onclick=e=>{const li=e.target.closest('.item');if(li)open(li.dataset.id)};
+$('list').onkeydown=e=>{if(e.key==='Enter'){const li=e.target.closest('.item');if(li)open(li.dataset.id)}};
+$('search').oninput=e=>{query=e.target.value.toLowerCase().trim();renderList()};
+$('title').oninput=e=>{if(!current)return;current.title=e.target.value;touch()};
+$('body').oninput=e=>{if(!current)return;current.body=e.target.value;countWords();touch()};
+$('pinBtn').onclick=()=>{if(!current)return;current.pinned=!current.pinned;save();renderEditor();renderList()};
+$('back').onclick=()=>$('app').classList.remove('editing');
+function resetDelete(){$('delWrap').innerHTML='<button id="delBtn">Delete</button>';$('delBtn').onclick=askDelete;$('delBtn').disabled=!current}
+function askDelete(){if(!current)return;$('delWrap').innerHTML='<span class="confirm">Delete this note? <button class="danger" id="yes">Delete</button><button id="no">Cancel</button></span>';
+  $('yes').onclick=()=>{notes=notes.filter(n=>n.id!==current.id);save();const next=sorted()[0];current=null;if(next)open(next.id);else{renderEditor();renderList()}$('app').classList.remove('editing')};
+  $('no').onclick=resetDelete}
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('search').focus()}});
+/* ---- save, download and load ---- */
+let downloads=null;
+function toast(t){const el=$('toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,3000)}
+function safeName(t){return (t||'Untitled').replace(/[\\/:*?"<>|]+/g,'').trim().slice(0,80)||'Untitled'}
+async function offer(filename,data){
+  if(!downloads){
+    const url=URL.createObjectURL(new Blob([data],{type:filename.endsWith('.json')?'application/json':'text/plain'}));
+    const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Saved '+filename);return}
+  try{await downloads.save({filename,data});toast('Saved '+filename)}
+  catch(e){const c=e&&e.code;if(c==='declined')return;toast(c==='rate_limited'?'A save is already waiting for you. Finish that one first.':'Could not save the file.')}
+}
+$('dlBtn').onclick=()=>{if(!current)return;offer(safeName(current.title)+'.txt',(current.title?current.title+'\n\n':'')+current.body)};
+$('saveAll').onclick=()=>{
+  const out=notes.filter(n=>!n.example).map(({title,body,pinned,updated})=>({title,body,pinned,updated}));
+  if(!out.length){toast('Write a note first. Example notes are not included.');return}
+  const d=new Date().toISOString().slice(0,10);
+  offer('pocket-notes-'+d+'.json',JSON.stringify({app:'Pocket Notes',version:1,notes:out},null,2));
+};
+$('loadBtn').onclick=()=>$('fileIn').click();
+$('fileIn').onchange=async e=>{
+  let added=0,bad=0;
+  for(const f of e.target.files){
+    try{
+      const text=await f.text();
+      if(f.name.toLowerCase().endsWith('.json')){
+        const data=JSON.parse(text);const list=Array.isArray(data)?data:data.notes;
+        if(!Array.isArray(list))throw 0;
+        for(const n of list){if(typeof n.body!=='string'&&typeof n.title!=='string')continue;
+          notes.push({id:'n'+now()+Math.random().toString(36).slice(2,7),title:String(n.title||''),body:String(n.body||''),pinned:!!n.pinned,updated:Number(n.updated)||now()});added++}
+      }else{
+        notes.push({id:'n'+now()+Math.random().toString(36).slice(2,7),title:f.name.replace(/\.(txt|md)$/i,''),body:text,pinned:false,updated:now()});added++
+      }
+    }catch(err){bad++}
+  }
+  e.target.value='';
+  if(added){save();query='';$('search').value='';renderList();if(!current)open(sorted()[0].id)}
+  toast(added?`Loaded ${added} note${added===1?'':'s'}`+(bad?`. ${bad} file${bad===1?'':'s'} could not be read.`:''):'That file does not contain any notes.');
+};
+(async()=>{try{downloads=window.claude&&await window.claude.use('downloads')}catch(e){downloads=null}
+})();
+
+load();current=sorted()[0]||null;renderEditor();renderList();
+</script>
+
+</body>
+</html>

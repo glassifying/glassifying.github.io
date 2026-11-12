@@ -1,0 +1,80 @@
+/* Shared look for the newer pages (features, changelog, skripts, projects) */
+:root{
+  --bg:#111; --panel:#171717; --line:#2a2a2a; --line2:#3a3a3a;
+  --text:#dcdcdc; --dim:#8c8c8c; --mute:#5a5a5a;
+  --c1:#d9443b; --c2:#e0a03a; --c3:#4aa8a0; --c4:#5b7fd1;
+  --mono:Consolas,"Courier New",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5}
+a{color:var(--c3)}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:64px;flex-wrap:wrap;gap:8px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em;font-size:16px;color:var(--text);text-decoration:none}
+.bars{display:flex;gap:3px}
+.bars i{width:4px;height:18px}
+.bars i:nth-child(1){background:var(--c1)}
+.bars i:nth-child(2){background:var(--c2);height:14px;margin-top:4px}
+.bars i:nth-child(3){background:var(--c3);height:10px;margin-top:8px}
+.bars i:nth-child(4){background:var(--c4);height:6px;margin-top:12px}
+header nav a{color:var(--dim);text-decoration:none;margin-left:22px;font-size:13px;white-space:nowrap}
+header nav a:hover,header nav a.on{color:var(--text)}
+
+.intro{padding:44px 0 20px}
+.intro h1{font-size:28px;font-weight:700}
+.intro p{color:var(--dim);margin-top:6px;max-width:560px}
+
+h2{font-size:12px;font-family:var(--mono);color:var(--mute);letter-spacing:.12em;text-transform:uppercase;margin:26px 0 10px}
+
+/* card with a thin colored edge */
+.card{display:grid;grid-template-columns:4px 1fr auto;border:1px solid var(--line);background:var(--panel);margin-bottom:10px}
+.card .edge{background:var(--c1)}
+.card.k2 .edge{background:var(--c2)} .card.k3 .edge{background:var(--c3)} .card.k4 .edge{background:var(--c4)}
+.card .info{padding:14px 16px;min-width:0}
+.card .name{font-weight:600}
+.card .sub{font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:2px}
+.card .notes{color:var(--dim);font-size:13px;margin-top:8px}
+.card .act{display:flex;align-items:center;gap:8px;padding:0 16px;border-left:1px solid var(--line)}
+.card ul{color:var(--dim);font-size:13px;margin:8px 0 0 18px}
+.card li{margin-top:3px}
+
+.btn{font-family:var(--sans);font-size:13px;font-weight:600;color:#fff;background:#2b2b2b;border:1px solid var(--line2);
+     padding:8px 16px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{background:#353535}
+.btn.go{background:var(--c1);border-color:var(--c1)}
+.btn.go:hover{filter:brightness(1.1)}
+.btn[disabled]{background:transparent;color:var(--mute);border-color:var(--line);cursor:not-allowed}
+
+.tag{font-family:var(--mono);font-size:10px;padding:1px 6px;border:1px solid var(--line2);margin-left:8px;color:var(--dim);vertical-align:2px}
+.tag.v1{color:var(--c1);border-color:var(--c1)} .tag.v2{color:var(--c2);border-color:var(--c2)}
+.tag.v3{color:var(--c3);border-color:var(--c3)} .tag.v4{color:var(--c4);border-color:var(--c4)}
+
+/* feature grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.feat{border:1px solid var(--line);background:var(--panel);padding:12px 14px;border-top:2px solid var(--c1)}
+.sec-HUD .feat{border-top-color:var(--c1)} .sec-PvP .feat{border-top-color:var(--c2)}
+.sec-Utility .feat{border-top-color:var(--c3)} .sec-FPS .feat{border-top-color:var(--c4)}
+.sec-Extras .feat{border-top-color:var(--line2)}
+.feat b{display:block;font-size:13px}
+.feat span{display:block;color:var(--dim);font-size:12px;margin-top:3px}
+
+/* filter buttons */
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
+.filters button{font-family:var(--mono);font-size:12px;color:var(--dim);background:transparent;border:1px solid var(--line2);padding:4px 10px;cursor:pointer}
+.filters button:hover{color:var(--text)}
+.filters button.on{color:var(--bg);background:var(--text);border-color:var(--text)}
+
+.empty{border:1px dashed var(--line2);color:var(--dim);padding:28px 18px;text-align:center;font-size:13px}
+
+footer{border-top:1px solid var(--line);margin-top:40px}
+footer .wrap{height:56px;display:flex;align-items:center;justify-content:space-between;color:var(--mute);font-size:12px}
+
+@media (max-width:600px){
+  .card{grid-template-columns:4px 1fr}
+  .card .act{grid-column:2;border-left:0;border-top:1px solid var(--line);padding:10px 16px}
+  header nav{display:flex;flex-wrap:wrap;gap:4px 14px}
+  header nav a{margin-left:0;white-space:nowrap}
+}

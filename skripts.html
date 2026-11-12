@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skripts · glassifying</title>
+<meta name="description" content="Minecraft Skript (.sk) files by glassifying">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="./"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <nav><a href="./">Releases</a><a href="features.html">Features</a><a href="changelog.html">Changelog</a><a href="mods.html">Mods</a><a href="skripts.html" class="on">Skripts</a><a href="projects.html">More projects</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Skripts</h1>
+    <p>.sk files for Minecraft servers running Skript. Download one, put it in <code>plugins/Skript/scripts</code>, then run <code>/sk reload</code>.</p>
+  </section>
+
+  <h2>Minecraft version</h2>
+  <div class="filters" id="filters"></div>
+  <div id="list"></div>
+</main>
+
+<footer><div class="wrap"><span>glassifying</span><span id="yr"></span></div></footer>
+
+<script>
+/* Add a skript: put the .sk file in the skripts folder, then add an entry here.
+   version must be one of the VERSIONS below (add a new one to VERSIONS if needed).
+   Example:
+   { name: "General", file: "skripts/General.sk", version: "26.2",
+     notes: "Custom swords, protected spawn and admin tools", needs: "SkBee" },
+*/
+const VERSIONS = ["1.12.2", "26.2", "1.21.11"];
+const SKRIPTS = [
+];
+
+const colors = { "1.12.2": "v1", "26.2": "v2", "1.21.11": "v3" };
+let pick = "all";
+const filters = document.getElementById("filters");
+const list = document.getElementById("list");
+
+function drawFilters() {
+  filters.innerHTML = "";
+  ["all"].concat(VERSIONS).forEach(v => {
+    const b = document.createElement("button");
+    b.type = "button";
+    const n = v === "all" ? SKRIPTS.length : SKRIPTS.filter(s => s.version === v).length;
+    b.textContent = (v === "all" ? "All" : v) + " · " + n;
+    if (v === pick) b.className = "on";
+    b.onclick = () => { pick = v; drawFilters(); drawList(); };
+    filters.appendChild(b);
+  });
+}
+
+function drawList() {
+  list.innerHTML = "";
+  const shown = SKRIPTS.filter(s => pick === "all" || s.version === pick);
+  if (!shown.length) {
+    const e = document.createElement("div");
+    e.className = "empty";
+    e.textContent = pick === "all" ? "No skripts yet. Check back soon." : "No skripts for " + pick + " yet.";
+    list.appendChild(e);
+    return;
+  }
+  shown.forEach((s, i) => {
+    const el = document.createElement("div");
+    el.className = "card k" + (VERSIONS.indexOf(s.version) % 4 + 1);
+    el.innerHTML = '<div class="edge"></div><div class="info"><div class="name"></div><div class="sub"></div><div class="notes"></div></div><div class="act"></div>';
+    const name = el.querySelector(".name");
+    name.textContent = s.name;
+    const t = document.createElement("span");
+    t.className = "tag " + (colors[s.version] || "");
+    t.textContent = s.version;
+    name.appendChild(t);
+    el.querySelector(".sub").textContent = s.file.split("/").pop() + (s.needs ? " · needs " + s.needs : "");
+    el.querySelector(".notes").textContent = s.notes || "";
+    const a = document.createElement("a");
+    a.className = "btn go"; a.href = s.file; a.textContent = "Download"; a.setAttribute("download", "");
+    el.querySelector(".act").appendChild(a);
+    list.appendChild(el);
+  });
+}
+
+drawFilters(); drawList();
+document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

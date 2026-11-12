@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects · glassifying</title>
+<meta name="description" content="More projects by glassifying">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="./"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <nav><a href="./">Releases</a><a href="features.html">Features</a><a href="changelog.html">Changelog</a><a href="mods.html">Mods</a><a href="skripts.html">Skripts</a><a href="projects.html" class="on">More projects</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>More by glassifying</h1>
+    <p>Other things I've made. All of them run in your browser.</p>
+  </section>
+  <div id="list"></div>
+</main>
+
+<footer><div class="wrap"><span>glassifying</span><span id="yr"></span></div></footer>
+
+<script>
+/* Add a project: one entry each. soon: true shows it greyed out with "Coming soon". */
+const PROJECTS = [
+  { name: "Admin Client", tag: "Eaglercraft 1.12.2", link: "./",
+    notes: "A free client for Eaglercraft 1.12.2 with HUD, PvP and FPS modules. Plays in your browser." },
+  { name: "Pocket Notes", tag: "notes app", link: "pocket-notes/",
+    notes: "A simple notes app. Pin notes, search them, and save or load them as files to share with friends. Notes stay in your browser." },
+  { name: "Skripts", tag: ".sk files", link: "skripts.html",
+    notes: "Skript files for Minecraft servers, sorted by Minecraft version." }
+];
+
+const list = document.getElementById("list");
+PROJECTS.forEach((p, i) => {
+  const el = document.createElement("div");
+  el.className = "card k" + (i % 4 + 1);
+  el.innerHTML = '<div class="edge"></div><div class="info"><div class="name"></div><div class="sub"></div><div class="notes"></div></div><div class="act"></div>';
+  el.querySelector(".name").textContent = p.name;
+  el.querySelector(".sub").textContent = p.tag;
+  el.querySelector(".notes").textContent = p.notes;
+  const act = el.querySelector(".act");
+  if (p.soon) {
+    const b = document.createElement("button"); b.className = "btn"; b.disabled = true; b.textContent = "Coming soon";
+    act.appendChild(b);
+  } else {
+    const a = document.createElement("a"); a.className = "btn go"; a.href = p.link; a.textContent = "Open";
+    act.appendChild(a);
+  }
+  list.appendChild(el);
+});
+document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
