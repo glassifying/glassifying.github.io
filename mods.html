@@ -97,6 +97,10 @@
   .tag{font-family:var(--mono);font-size:10px;padding:1px 6px;border:1px solid var(--line2);margin-left:8px;color:var(--dim);vertical-align:2px}
   .tag.ok{color:var(--c3);border-color:var(--c3)}
   .shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .shape{position:absolute;opacity:.07;cursor:pointer;transition:opacity .3s}
+  .shape:hover{opacity:.14}
+  .whisp{position:absolute;font-family:var(--mono);font-size:10px;color:var(--dim);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .4s}
+  .whisp.show{opacity:1}
 </style>
 </head>
 <body>
@@ -128,7 +132,7 @@
     </ul></div>
   </div>
 </main>
-<footer><div class="wrap"><span>Admin Client</span><span></span></div></footer>
+<footer style="position:relative"><div class="wrap"><span>Admin Client</span><span></span></div><div class="wrap" style="position:relative;padding-bottom:18px"><div style="font-family:var(--mono);font-size:9px;color:#2f2f2f;letter-spacing:.04em;word-spacing:2px;user-select:text">map · a·15  b·98  c·71  d·79  e·8  f·18  g·41  h·56  i·61  j·72  k·88  l·46  m·44  n·73  o·54  p·23  q·48  r·10  s·6  t·91  u·34  v·68  w·59  x·24  y·40  z·32</div><svg class="shape" data-h="read the smallest print" style="right:20px;top:-46px" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="2" y="2" width="26" height="26" fill="none" stroke="#dcdcdc" stroke-width="2"/><rect x="9" y="9" width="12" height="12" fill="none" stroke="#dcdcdc" stroke-width="2" transform="rotate(45 15 15)"/></svg></div></footer>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)}, te=new TextEncoder(), td=new TextDecoder();
@@ -182,6 +186,17 @@
   $("go").onclick=go;
   $("pw").addEventListener("keydown",function(e){if(e.key==="Enter")go()});
 })();
+</script>
+<script>
+document.querySelectorAll(".shape").forEach(function(sh){
+  sh.addEventListener("click", function(){
+    var w = document.createElement("div"); w.className = "whisp"; w.textContent = sh.dataset.h;
+    sh.parentNode.appendChild(w);
+    w.style.top = (sh.offsetTop + sh.getBoundingClientRect().height + 4) + "px"; w.style.right = "0px";
+    requestAnimationFrame(function(){ w.classList.add("show"); });
+    setTimeout(function(){ w.classList.remove("show"); setTimeout(function(){ w.remove(); }, 500); }, 5000);
+  });
+});
 </script>
 </body>
 </html>

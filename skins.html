@@ -52,6 +52,10 @@
     .view{position:static;order:-1}
     .stage{height:300px}
   }
+  .shape{position:absolute;opacity:.07;cursor:pointer;transition:opacity .3s}
+  .shape:hover{opacity:.14}
+  .whisp{position:absolute;font-family:var(--mono);font-size:10px;color:var(--dim);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .4s}
+  .whisp.show{opacity:1}
 </style>
 </head>
 <body>
@@ -64,7 +68,8 @@
 </header>
 
 <main class="wrap wide">
-  <section class="intro">
+  <section class="intro" style="position:relative">
+    <svg class="shape" data-h="the key sleeps where the mods do" style="right:0;top:48px" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 17m0 0a2 2 0 0 1 4 0a4 4 0 0 1-8 0a6 6 0 0 1 12 0a8 8 0 0 1-16 0a10 10 0 0 1 20 0a12 12 0 0 1-24 0" fill="none" stroke="#dcdcdc" stroke-width="2"/></svg>
     <h1>Skins</h1>
     <p>Click a skin to see it in 3D. Download it and use it in Minecraft, Eaglercraft or Admin Client (Edit Profile → Add Skin).</p>
   </section>
@@ -234,6 +239,17 @@ setAnim("spin");
 draw();
 show(SKINS[0]);
 $("yr").textContent = new Date().getFullYear();
+</script>
+<script>
+document.querySelectorAll(".shape").forEach(function(sh){
+  sh.addEventListener("click", function(){
+    var w = document.createElement("div"); w.className = "whisp"; w.textContent = sh.dataset.h;
+    sh.parentNode.appendChild(w);
+    w.style.top = (sh.offsetTop + sh.getBoundingClientRect().height + 4) + "px"; w.style.right = "0px";
+    requestAnimationFrame(function(){ w.classList.add("show"); });
+    setTimeout(function(){ w.classList.remove("show"); setTimeout(function(){ w.remove(); }, 500); }, 5000);
+  });
+});
 </script>
 </body>
 </html>
