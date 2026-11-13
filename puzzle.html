@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Gift · glassifying</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="site.css">
+<style>
+  .case{border:1px solid var(--line);background:var(--panel);margin-top:6px}
+  .case .top{display:flex;height:3px}.case .top i{flex:1}
+  .case .top i:nth-child(1){background:var(--c1)}.case .top i:nth-child(2){background:var(--c2)}
+  .case .top i:nth-child(3){background:var(--c3)}.case .top i:nth-child(4){background:var(--c4)}
+  .case .in{padding:20px 18px;display:grid;gap:12px}
+  .tagline{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.12em;text-transform:uppercase}
+  .riddle{font-size:17px;line-height:1.6;max-width:560px}
+  .r{display:flex;gap:8px;max-width:460px}
+  .r input{flex:1;background:#0d0d0d;border:1px solid var(--line2);color:var(--text);padding:8px 10px;font:inherit;outline:none}
+  .r input:focus{border-color:var(--c3)}
+  .msg{font-size:13px;color:var(--dim);min-height:20px}.msg.bad{color:#ff8a80}.msg.ok{color:var(--c3)}
+  .shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .fake{border:1px dashed var(--line2);padding:12px 14px;font-family:var(--mono);font-size:13px;display:none}
+
+  .board{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:18px}
+  .ev{border:1px solid var(--line);background:#141414;cursor:pointer;display:flex;flex-direction:column;align-items:center;padding:10px 6px 8px;user-select:none}
+  .ev:hover{background:#191919}
+  .ev svg{width:100%;max-width:110px;height:auto;display:block}
+  .ev .frag{font-family:var(--mono);font-size:11px;color:var(--mute);min-height:16px;margin-top:6px;text-align:center}
+  .ev.seen .frag{color:var(--text)}
+  .ev.seen{border-color:var(--line2)}
+  .whisper{margin-top:14px;display:none;max-width:260px}
+  .whisper input{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line2);color:var(--text);padding:6px 2px;font:inherit;font-family:var(--mono);font-size:12px;outline:none}
+  .whisper input:focus{border-bottom-color:var(--c3)}
+
+  /* real case */
+  #real{display:none}
+  .ex{border:1px solid var(--line);background:var(--panel);margin-bottom:10px;overflow-x:auto}
+  .ex h3{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--line)}
+  .ex table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:12px}
+  .ex th,.ex td{text-align:left;padding:6px 12px;border-bottom:1px solid var(--line)}
+  .ex th{color:var(--mute);font-weight:400}
+  .ex td.rn,.ex th.rn{color:var(--mute);width:48px}
+  .ex tr:last-child td{border-bottom:0}
+  .slots{display:flex;gap:6px;margin:6px 0 14px}
+  .slots div{width:38px;height:44px;border:1px solid var(--line2);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--mono)}
+  .slots div b{font-size:16px}
+  .slots div span{font-size:9px;color:var(--mute)}
+  .slots div.on{border-color:var(--c3)}
+  .q{border:1px solid var(--line);background:var(--panel);padding:14px 16px;display:grid;gap:10px;border-left:3px solid var(--c2)}
+  .q .n{font-family:var(--mono);font-size:11px;color:var(--mute)}
+  .clues{margin-top:10px;display:grid;gap:6px}
+  .clue{font-family:var(--mono);font-size:12px;color:var(--text);border:1px solid var(--line);padding:8px 10px;background:#141414}
+  .clue em{color:var(--c3);font-style:normal}
+  .closed{border:1px solid var(--c3);padding:14px 16px;display:none}
+  @media (max-width:700px){ .board{grid-template-columns:repeat(3,1fr)} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="./"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <nav><a href="./">Releases</a><a href="features.html">Features</a><a href="changelog.html">Changelog</a><a href="mods.html">Mods</a><a href="skripts.html">Skripts</a><a href="skins.html">Skins</a><a href="projects.html">More projects</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- the case everyone sees -->
+  <section id="fakeCase">
+    <section class="intro">
+      <h1>The Gift</h1>
+      <p>Solve it and the password is yours.</p>
+    </section>
+    <div class="case" id="riddleBox">
+      <div class="top"><i></i><i></i><i></i><i></i></div>
+      <div class="in">
+        <div class="tagline">Case #0</div>
+        <div class="riddle">I arrived as a present.<br>They pulled me inside themselves.<br>By morning, the city was gone.<br>What am I?</div>
+        <div class="r"><input id="ans0" placeholder="Your answer" autocomplete="off" aria-label="Your answer"><button class="btn go" id="go0" type="button">Check</button></div>
+        <div class="msg" id="msg0"></div>
+        <div class="fake" id="fake">ACCESS GRANTED<br>Password: TROJAN</div>
+      </div>
+    </div>
+
+    <div class="board" id="board">
+      <!-- 1: phone with a cracked padlock -->
+      <div class="ev" data-i="0"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="10" width="40" height="80" rx="5" fill="none" stroke="#5b7fd1" stroke-width="3"/><line x1="44" y1="17" x2="56" y2="17" stroke="#5b7fd1" stroke-width="3"/><rect x="39" y="50" width="22" height="18" fill="none" stroke="#e0a03a" stroke-width="3"/><path d="M43 50v-6a7 7 0 0 1 14 0v2" fill="none" stroke="#e0a03a" stroke-width="3"/><path d="M50 52l-3 6 5 2-3 6" fill="none" stroke="#d9443b" stroke-width="2.5"/></svg><div class="frag"></div></div>
+      <!-- 2: hooded figure at a laptop -->
+      <div class="ev" data-i="1"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M34 52c0-16 7-30 16-30s16 14 16 30" fill="none" stroke="#8c8c8c" stroke-width="3"/><path d="M42 46c2-6 5-9 8-9s6 3 8 9" fill="none" stroke="#3a3a3a" stroke-width="3"/><circle cx="46" cy="44" r="1.8" fill="#4aa8a0"/><circle cx="54" cy="44" r="1.8" fill="#4aa8a0"/><path d="M26 66l8-14h32l8 14" fill="none" stroke="#8c8c8c" stroke-width="3"/><rect x="30" y="66" width="40" height="18" fill="none" stroke="#d9443b" stroke-width="3"/><line x1="22" y1="88" x2="78" y2="88" stroke="#d9443b" stroke-width="3"/></svg><div class="frag"></div></div>
+      <!-- 3: code on a dark screen -->
+      <div class="ev" data-i="2"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="14" y="18" width="72" height="52" fill="none" stroke="#8c8c8c" stroke-width="3"/><line x1="40" y1="82" x2="60" y2="82" stroke="#8c8c8c" stroke-width="3"/><line x1="50" y1="70" x2="50" y2="82" stroke="#8c8c8c" stroke-width="3"/><line x1="22" y1="30" x2="44" y2="30" stroke="#4aa8a0" stroke-width="3"/><line x1="28" y1="38" x2="60" y2="38" stroke="#e0a03a" stroke-width="3"/><line x1="28" y1="46" x2="50" y2="46" stroke="#5b7fd1" stroke-width="3"/><line x1="22" y1="54" x2="38" y2="54" stroke="#4aa8a0" stroke-width="3"/><rect x="42" y="51" width="6" height="7" fill="#d9443b"/></svg><div class="frag"></div></div>
+      <!-- 4: magnifying glass over a message bubble -->
+      <div class="ev" data-i="3"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M14 22h50v30H34l-10 9v-9H14z" fill="none" stroke="#5b7fd1" stroke-width="3"/><line x1="22" y1="32" x2="54" y2="32" stroke="#3a3a3a" stroke-width="3"/><line x1="22" y1="41" x2="44" y2="41" stroke="#3a3a3a" stroke-width="3"/><circle cx="60" cy="58" r="14" fill="#141414" stroke="#e0a03a" stroke-width="3"/><line x1="70" y1="68" x2="86" y2="84" stroke="#e0a03a" stroke-width="5"/><line x1="54" y1="58" x2="66" y2="58" stroke="#d9443b" stroke-width="2.5"/></svg><div class="frag"></div></div>
+      <!-- 5: satellite dish -->
+      <div class="ev" data-i="4"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M22 34a34 34 0 0 0 44 44z" fill="none" stroke="#8c8c8c" stroke-width="3"/><line x1="44" y1="56" x2="62" y2="38" stroke="#8c8c8c" stroke-width="3"/><circle cx="64" cy="36" r="3" fill="#d9443b"/><path d="M70 22a16 16 0 0 1 8 8" fill="none" stroke="#4aa8a0" stroke-width="3"/><path d="M72 12a26 26 0 0 1 16 16" fill="none" stroke="#4aa8a0" stroke-width="3"/><line x1="40" y1="78" x2="34" y2="90" stroke="#8c8c8c" stroke-width="3"/><line x1="26" y1="90" x2="50" y2="90" stroke="#8c8c8c" stroke-width="3"/></svg><div class="frag"></div></div>
+      <!-- 6: camera lens -->
+      <div class="ev" data-i="5"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="34" fill="none" stroke="#8c8c8c" stroke-width="3"/><circle cx="50" cy="50" r="22" fill="none" stroke="#5b7fd1" stroke-width="3"/><circle cx="50" cy="50" r="10" fill="#141414" stroke="#3a3a3a" stroke-width="3"/><circle cx="45" cy="45" r="3" fill="#dcdcdc"/><circle cx="78" cy="22" r="4" fill="#d9443b"/></svg><div class="frag"></div></div>
+    </div>
+    <div class="whisper" id="whisper"><input id="w" placeholder="…" autocomplete="off" aria-label="…"></div>
+  </section>
+
+  <!-- the real case, unlocked from the board -->
+  <section id="real">
+    <section class="intro">
+      <h1 id="rTitle"></h1>
+      <p id="rIntro"></p>
+    </section>
+    <h2>Password slots</h2>
+    <div class="slots" id="slots"></div>
+    <h2>Evidence</h2>
+    <div id="exhibits"></div>
+    <h2>Questions</h2>
+    <div class="q" id="qBox">
+      <div class="n" id="qNum"></div>
+      <div id="qText"></div>
+      <div class="r"><input id="qa" placeholder="Type your answer" autocomplete="off" aria-label="Your answer"><button class="btn go" id="qgo" type="button">Submit</button></div>
+      <div class="msg" id="qmsg"></div>
+    </div>
+    <div class="clues" id="clues"></div>
+    <div class="closed" id="closed"><p id="doneText"></p><p style="margin-top:10px"><a class="btn go" href="eagler-1-21-11.html">Go to Eaglercraft 1.21.11</a></p></div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>glassifying</span><span id="yr"></span></div></footer>
+
+<script>
+(function(){
+  var DATA = {"it": 60000, "case": {"iv": "0UbpGgO8/ViZDGvq", "ct": "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", "slots": [{"s": "5zhw3ntczAjYYzsLsgWa3g==", "i": "7X3dcigZF1mKcPJM", "k": "D/iteSkDKbcBAD9Ty1mR9KO0a66xhoTVm7l38W8qd+TtRDmiZxFu1I4XAJBmChmW"}]}};
+  var $ = function(i){ return document.getElementById(i); };
+  var te = new TextEncoder(), td = new TextDecoder();
+  var SAVE = "gfy-case7";
+  function d64(s){ var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+  function norm(s){ return String(s || "").toLowerCase().replace(/[^a-z0-9]/g, ""); }
+  function shake(el){ el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
+  function load(){ try { return JSON.parse(localStorage.getItem(SAVE)) || {}; } catch (e) { return {}; } }
+  function store(st){ try { localStorage.setItem(SAVE, JSON.stringify(st)); } catch (e) {} }
+
+  async function open(lock, pw){
+    var base = await crypto.subtle.importKey("raw", te.encode(pw), "PBKDF2", false, ["deriveKey"]);
+    for (var i = 0; i < lock.slots.length; i++) {
+      var s = lock.slots[i];
+      try {
+        var kek = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: d64(s.s), iterations: DATA.it, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+        var raw = await crypto.subtle.decrypt({ name: "AES-GCM", iv: d64(s.i) }, kek, d64(s.k));
+        var k = await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]);
+        return JSON.parse(td.decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: d64(lock.iv) }, k, d64(lock.ct))));
+      } catch (e) {}
+    }
+    return null;
+  }
+
+  /* ---------- Case #0: the decoy ---------- */
+  var nopes = ["Not quite…", "Not quite. Think older.", "Not quite…", "Closer than you think. Not quite.", "Not quite…"];
+  var tries = 0;
+  function check0(){
+    var a = norm($("ans0").value);
+    if (!a) return;
+    if (/trojan|woodenhorse/.test(a)) {
+      $("msg0").className = "msg ok"; $("msg0").textContent = "Correct.";
+      $("fake").style.display = "block";
+      return;
+    }
+    $("msg0").className = "msg bad"; $("msg0").textContent = nopes[tries++ % nopes.length];
+    shake($("riddleBox"));
+  }
+  $("go0").onclick = check0;
+  $("ans0").addEventListener("keydown", function(e){ if (e.key === "Enter") check0(); });
+
+  /* ---------- the board ---------- */
+  var FRAG = ["a thing", "you are", "on,", "used", "by", "some."];
+  var seen = {};
+  document.querySelectorAll(".ev").forEach(function(ev){
+    ev.addEventListener("click", function(){
+      var i = +ev.dataset.i;
+      seen[i] = true;
+      ev.classList.add("seen");
+      ev.querySelector(".frag").textContent = (i + 1) + " · " + FRAG[i];
+      if (Object.keys(seen).length === FRAG.length) $("whisper").style.display = "block";
+    });
+  });
+  var wBusy = false;
+  $("w").addEventListener("keydown", async function(e){
+    if (e.key !== "Enter" || wBusy) return;
+    var v = norm($("w").value);
+    if (v.indexOf("admin") < 0) { $("w").value = ""; shake($("whisper")); return; }
+    wBusy = true;
+    var c = await open(DATA.case, "admin");
+    wBusy = false;
+    if (c) { var st = load(); st.open = true; store(st); showReal(c); }
+  });
+
+  /* ---------- Case File 7: the real one ---------- */
+  var C = null, solved = {}, cooldown = 0;
+  function showReal(c){
+    C = c;
+    $("fakeCase").style.display = "none";
+    $("real").style.display = "block";
+    $("rTitle").textContent = c.title;
+    $("rIntro").textContent = c.intro;
+    var slots = $("slots"); slots.innerHTML = "";
+    for (var s = 1; s <= 7; s++) { var d = document.createElement("div"); d.innerHTML = "<b>?</b><span>" + s + "</span>"; d.id = "slot" + s; slots.appendChild(d); }
+    var ex = $("exhibits"); ex.innerHTML = "";
+    c.exhibits.forEach(function(x){
+      var box = document.createElement("div"); box.className = "ex";
+      var h = document.createElement("h3"); h.textContent = x.name; box.appendChild(h);
+      var t = document.createElement("table"), tr = document.createElement("tr");
+      var th0 = document.createElement("th"); th0.className = "rn"; th0.textContent = "ROW"; tr.appendChild(th0);
+      x.cols.forEach(function(cn){ var th = document.createElement("th"); th.textContent = cn; tr.appendChild(th); });
+      t.appendChild(tr);
+      x.rows.forEach(function(r, ri){
+        var row = document.createElement("tr");
+        var rn = document.createElement("td"); rn.className = "rn"; rn.textContent = ri + 1; row.appendChild(rn);
+        r.forEach(function(v){ var td_ = document.createElement("td"); td_.textContent = v; row.appendChild(td_); });
+        t.appendChild(row);
+      });
+      box.appendChild(t); ex.appendChild(box);
+    });
+    var st = load(); solved = st.solved || {};
+    $("clues").innerHTML = "";
+    Object.keys(solved).sort(function(a,b){ return a - b; }).forEach(function(k){ addClue(+k, solved[k]); });
+    nextQ();
+  }
+  function addClue(qi, clue){
+    var d = document.createElement("div"); d.className = "clue";
+    d.innerHTML = "Q" + (qi + 1) + " → ";
+    var t = document.createElement("span"); t.textContent = clue.clue + " ";
+    var em = document.createElement("em"); em.textContent = "→ slot " + clue.slot;
+    d.appendChild(t); d.appendChild(em); $("clues").appendChild(d);
+    var sl = $("slot" + clue.slot); if (sl) sl.classList.add("on");
+  }
+  function nextQ(){
+    var qi = -1;
+    for (var i = 0; i < C.questions.length; i++) if (!solved[i]) { qi = i; break; }
+    if (qi < 0) {
+      $("qBox").style.display = "none";
+      $("doneText").textContent = C.done;
+      $("closed").style.display = "block";
+      return;
+    }
+    $("qBox").dataset.qi = qi;
+    $("qNum").textContent = "Question " + (qi + 1) + " of " + C.questions.length;
+    $("qText").textContent = C.questions[qi].q;
+    $("qa").value = ""; $("qmsg").textContent = ""; $("qmsg").className = "msg";
+  }
+  var qBusy = false;
+  async function submitQ(){
+    if (qBusy) return;
+    var now = Date.now();
+    if (now < cooldown) { $("qmsg").className = "msg bad"; $("qmsg").textContent = "Wait " + Math.ceil((cooldown - now) / 1000) + "s…"; return; }
+    var a = norm($("qa").value); if (!a) return;
+    var qi = +$("qBox").dataset.qi;
+    qBusy = true; $("qmsg").className = "msg"; $("qmsg").textContent = "Checking…";
+    var clue = await open(C.questions[qi].lock, a);
+    qBusy = false;
+    if (!clue) {
+      cooldown = Date.now() + 4000;
+      $("qmsg").className = "msg bad"; $("qmsg").textContent = "Wrong. Try again in 4 seconds.";
+      shake($("qBox")); return;
+    }
+    solved[qi] = clue;
+    var st = load(); st.solved = solved; store(st);
+    addClue(qi, clue);
+    nextQ();
+  }
+  $("qgo").onclick = submitQ;
+  $("qa").addEventListener("keydown", function(e){ if (e.key === "Enter") submitQ(); });
+
+  /* come back where you left off */
+  (async function(){
+    var st = load();
+    if (st.open) { var c = await open(DATA.case, "admin"); if (c) showReal(c); }
+  })();
+  $("yr").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

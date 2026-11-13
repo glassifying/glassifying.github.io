@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eaglercraft 1.21.11 · Admin Client</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="site.css">
+<style>
+  .lock{border:1px solid var(--line);background:var(--panel);margin-top:6px}
+  .lock .top{display:flex;height:3px}.lock .top i{flex:1}
+  .lock .top i:nth-child(1){background:var(--c1)}.lock .top i:nth-child(2){background:var(--c2)}
+  .lock .top i:nth-child(3){background:var(--c3)}.lock .top i:nth-child(4){background:var(--c4)}
+  .lock .in{padding:22px 18px;display:grid;gap:10px;max-width:440px}
+  .lock .r{display:flex;gap:8px}
+  .lock input[type=password]{flex:1;background:#0d0d0d;border:1px solid var(--line2);color:var(--text);padding:8px 10px;font:inherit;outline:none}
+  .lock input[type=password]:focus{border-color:var(--c3)}
+  .lock label{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--dim);cursor:pointer}
+  .msg{font-size:12px;color:var(--dim);min-height:18px}.msg.bad{color:#ff8a80}
+  .bar{height:3px;background:var(--line);display:none}.bar i{display:block;height:100%;width:0;background:var(--c3)}
+  .shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .info{color:var(--dim);font-size:13px;margin-top:14px;max-width:560px}
+  .info li{margin:4px 0 0 18px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="./"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <nav><a href="./">Releases</a><a href="features.html">Features</a><a href="changelog.html">Changelog</a><a href="mods.html">Mods</a><a href="skripts.html">Skripts</a><a href="skins.html">Skins</a><a href="projects.html">More projects</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Eaglercraft 1.21.11</h1>
+    <p>Minecraft 1.21.11 in your browser. This one has its own password.</p>
+  </section>
+
+  <div class="lock" id="gate">
+    <div class="top"><i></i><i></i><i></i><i></i></div>
+    <div class="in">
+      <div class="r">
+        <input type="password" id="pw" placeholder="Password" autocomplete="off" aria-label="Password">
+        <button class="btn go" id="go" type="button">Play</button>
+      </div>
+      <label><input type="checkbox" id="keep"> Remember on this device</label>
+      <div class="bar" id="bar"><i id="fill"></i></div>
+      <div class="msg" id="msg"></div>
+    </div>
+  </div>
+
+  <ul class="info">
+    <li>It's a big download (about 49 MB) the first time. After that your browser keeps a copy.</li>
+    <li>Don't know the password? <a href="puzzle.html">Solve the puzzle →</a></li>
+    <li>Needs a recent Chrome or Edge. Your worlds are saved in this browser.</li>
+    <li>Don't share the password. Make them earn it.</li>
+  </ul>
+</main>
+
+<footer><div class="wrap"><span>Admin Client</span><span></span></div></footer>
+
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)}, te=new TextEncoder();
+  var KEEP="ac-e1211-key";
+  function d64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+  function e64(u){var s="";for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s)}
+  var meta=null;
+  fetch("eagler/1.21.11.json",{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){meta=j;autoKey()}).catch(function(){$("msg").textContent="Couldn't load. Refresh to try again."});
+
+  async function unwrap(pw){
+    var base=await crypto.subtle.importKey("raw",te.encode(pw),"PBKDF2",false,["deriveKey"]);
+    for(var i=0;i<meta.slots.length;i++){
+      var s=meta.slots[i];
+      try{
+        var kek=await crypto.subtle.deriveKey({name:"PBKDF2",salt:d64(s.salt),iterations:meta.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
+        return new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM",iv:d64(s.iv)},kek,d64(s.key)));
+      }catch(e){}
+    }
+    return null;
+  }
+
+  async function download(){
+    var r=await fetch("eagler/1.21.11.bin");
+    if(!r.ok) throw new Error("download failed");
+    var total=meta.size||+r.headers.get("content-length")||0, got=0, parts=[];
+    var rd=r.body.getReader();
+    $("bar").style.display="block";
+    for(;;){
+      var x=await rd.read(); if(x.done) break;
+      parts.push(x.value); got+=x.value.length;
+      if(total){ $("fill").style.width=Math.min(100,got/total*100).toFixed(1)+"%"; $("msg").textContent="Downloading… "+Math.round(got/1048576)+" / "+Math.round(total/1048576)+" MB"; }
+    }
+    var out=new Uint8Array(got), o=0; parts.forEach(function(p){out.set(p,o);o+=p.length}); parts=null;
+    return out;
+  }
+
+  async function launch(rawKey){
+    $("msg").className="msg"; $("msg").textContent="Downloading…";
+    var data=await download();
+    $("msg").textContent="Starting…";
+    var k=await crypto.subtle.importKey("raw",rawKey,"AES-GCM",false,["decrypt"]);
+    var plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:d64(meta.iv)},k,data); data=null;
+    var url=URL.createObjectURL(new Blob([plain],{type:"text/html"}));
+    location.assign(url);
+  }
+
+  function fail(text){
+    busy=false;
+    $("pw").value=""; $("msg").className="msg bad"; $("msg").textContent=text;
+    var g=$("gate"); g.classList.remove("shake"); void g.offsetWidth; g.classList.add("shake");
+  }
+
+  var busy=false;
+  async function go(){
+    var pw=$("pw").value.trim().toLowerCase();
+    if(!pw||busy) return;
+    if(!meta){ $("msg").textContent="Still loading, try again in a second."; return; }
+    busy=true; $("msg").className="msg"; $("msg").textContent="Checking…";
+    var key=await unwrap(pw);
+    if(!key){ fail("Wrong password."); return; }
+    try{ if($("keep").checked) localStorage.setItem(KEEP,e64(key)); else localStorage.removeItem(KEEP); }catch(e){}
+    try{ await launch(key); }catch(e){ busy=false; $("msg").className="msg bad"; $("msg").textContent="Couldn't start the game. Check your connection and try again."; }
+  }
+
+  async function autoKey(){
+    var saved=null; try{ saved=localStorage.getItem(KEEP); }catch(e){}
+    if(!saved) return;
+    $("keep").checked=true;
+    $("go").textContent="Play";
+    $("pw").placeholder="Remembered on this device";
+    $("pw").onfocus=null;
+    $("go").onclick=async function(){
+      if(busy) return;
+      if($("pw").value.trim()){ go(); return; }
+      busy=true;
+      try{ await launch(d64(saved)); }catch(e){ try{localStorage.removeItem(KEEP)}catch(x){} fail("Saved password no longer works. Type it again."); }
+    };
+  }
+
+  $("go").onclick=go;
+  $("pw").addEventListener("keydown",function(e){if(e.key==="Enter")$("go").click()});
+  $("keep").onchange=function(){ if(!this.checked){ try{localStorage.removeItem(KEEP)}catch(e){} } };
+})();
+</script>
+</body>
+</html>
