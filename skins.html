@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skins · glassifying</title>
+<meta name="description" content="Minecraft skins with a 3D preview. Free to download.">
+<link rel="stylesheet" href="site.css">
+<style>
+  .wrap.wide{max-width:1180px}
+  .layout{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
+  .tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 14px}
+  .tools input[type=search]{flex:1;min-width:180px;background:#0d0d0d;border:1px solid var(--line2);color:var(--text);padding:7px 10px;font:inherit;outline:none}
+  .tools input[type=search]:focus{border-color:var(--c3)}
+  .count{font-family:var(--mono);font-size:11px;color:var(--mute)}
+
+  .skins{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px}
+  .sk{border:1px solid var(--line);background:var(--panel);cursor:pointer;display:flex;flex-direction:column;border-top:2px solid var(--line2)}
+  .sk:nth-child(4n+1){border-top-color:var(--c1)} .sk:nth-child(4n+2){border-top-color:var(--c2)}
+  .sk:nth-child(4n+3){border-top-color:var(--c3)} .sk:nth-child(4n+4){border-top-color:var(--c4)}
+  .sk:hover{background:#1c1c1c}
+  .sk.on{outline:1px solid var(--text);outline-offset:-1px}
+  .sk .pic{height:170px;display:flex;align-items:center;justify-content:center;background:#141414;border-bottom:1px solid var(--line)}
+  .sk .pic img{height:160px;image-rendering:auto}
+  .sk .pic .ph{width:40px;height:2px;background:var(--line2)}
+  .sk .t{padding:8px 10px 10px}
+  .sk .n{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sk .by{font-family:var(--mono);font-size:10px;color:var(--mute);margin-top:1px}
+
+  .view{position:sticky;top:14px;border:1px solid var(--line);background:var(--panel)}
+  .view .top{display:flex;height:3px}.view .top i{flex:1}
+  .view .top i:nth-child(1){background:var(--c1)}.view .top i:nth-child(2){background:var(--c2)}
+  .view .top i:nth-child(3){background:var(--c3)}.view .top i:nth-child(4){background:var(--c4)}
+  .view .head{padding:12px 14px 0}
+  .view .head .n{font-weight:700;font-size:15px}
+  .view .head .by{font-family:var(--mono);font-size:11px;color:var(--mute)}
+  .stage{height:360px;display:flex;align-items:center;justify-content:center;cursor:grab}
+  .stage:active{cursor:grabbing}
+  .hint{font-family:var(--mono);font-size:10px;color:var(--mute);text-align:center;padding-bottom:8px}
+  .ctl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:0 14px}
+  .ctl button{font-family:var(--mono);font-size:11px;color:var(--dim);background:transparent;border:1px solid var(--line2);padding:6px 0;cursor:pointer}
+  .ctl button:hover{color:var(--text)}
+  .ctl button.on{color:var(--bg);background:var(--text);border-color:var(--text)}
+  .ctl.model{margin-top:6px}
+  .dl{padding:12px 14px 14px;display:grid;gap:6px}
+  .dl .btn{text-align:center}
+  .drop{font-size:11px;color:var(--mute);text-align:center;border:1px dashed var(--line2);padding:8px;cursor:pointer}
+  .drop:hover,.drop.over{color:var(--text);border-color:var(--c3)}
+
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr}
+    .view{position:static;order:-1}
+    .stage{height:300px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="./"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <nav><a href="./">Releases</a><a href="features.html">Features</a><a href="changelog.html">Changelog</a><a href="mods.html">Mods</a><a href="skripts.html">Skripts</a><a href="skins.html" class="on">Skins</a><a href="projects.html">More projects</a></nav>
+  </div>
+</header>
+
+<main class="wrap wide">
+  <section class="intro">
+    <h1>Skins</h1>
+    <p>Click a skin to see it in 3D. Download it and use it in Minecraft, Eaglercraft or Admin Client (Edit Profile → Add Skin).</p>
+  </section>
+
+  <div class="layout">
+    <div>
+      <div class="tools">
+        <input type="search" id="q" placeholder="Search skins" aria-label="Search skins">
+        <span class="count" id="count"></span>
+      </div>
+      <div class="skins" id="grid"></div>
+    </div>
+
+    <aside class="view" id="view">
+      <div class="top"><i></i><i></i><i></i><i></i></div>
+      <div class="head"><div class="n" id="vName">–</div><div class="by" id="vBy"></div></div>
+      <div class="stage" id="stage"></div>
+      <div class="hint">drag to turn · scroll to zoom</div>
+      <div class="ctl" id="anim">
+        <button type="button" data-a="spin" class="on">Spin</button>
+        <button type="button" data-a="walk">Walk</button>
+        <button type="button" data-a="still">Still</button>
+      </div>
+      <div class="ctl model" id="model">
+        <button type="button" data-m="auto-detect" class="on">Auto arms</button>
+        <button type="button" data-m="default">Wide</button>
+        <button type="button" data-m="slim">Slim</button>
+      </div>
+      <div class="dl">
+        <a class="btn go" id="dl" href="#" download>Download</a>
+        <label class="drop" id="drop">Try your own skin: drop a .png here or click<input type="file" id="file" accept="image/png" hidden></label>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer><div class="wrap wide"><span>glassifying</span><span id="yr"></span></div></footer>
+
+<script src="vendor/skinview3d.bundle.js"></script>
+<script>
+/* Add a skin: put the 64x64 .png in the skins folder, then add a line here. */
+const SKINS = [
+  { name: "Red & Blue Skull", by: "Unknown",     file: "skins/red-blue-skull.png" },
+  { name: "Technoblade",      by: "Technoblade", file: "skins/technoblade.png" },
+  { name: "Dream",            by: "Dream",       file: "skins/dream.png" },
+  { name: "Wemmbu",           by: "Wemmbu",      file: "skins/wemmbu.png" },
+  { name: "Unstable",         by: "ashswagg",    file: "skins/unstable.png" },
+  { name: "Mafia Diamond",    by: "Unknown",     file: "skins/mafia-diamond.png" },
+  { name: "Crowned Diamond",  by: "Unknown",     file: "skins/crowned-diamond.png" },
+  { name: "Rainbow Drip",     by: "Unknown",     file: "skins/rainbow-drip.png" },
+  { name: "Ember Hoodie",     by: "Unknown",     file: "skins/ember-hoodie.png" },
+  { name: "Eye Suit",         by: "Unknown",     file: "skins/eye-suit.png" }
+];
+
+const $ = id => document.getElementById(id);
+const grid = $("grid");
+let current = null, model = "auto-detect", anim = "spin", custom = null;
+
+/* big 3D viewer */
+const stage = $("stage");
+const viewer = new skinview3d.SkinViewer({ width: 290, height: stage.clientHeight || 360 });
+stage.appendChild(viewer.canvas);
+viewer.zoom = 0.85;
+viewer.fov = 50;
+viewer.controls.enablePan = false;
+viewer.autoRotate = true;
+viewer.autoRotateSpeed = 1.2;
+
+function fitStage() {
+  const w = Math.min(stage.clientWidth || 290, 480);
+  viewer.setSize(w, stage.clientHeight || 360);
+}
+window.addEventListener("resize", fitStage);
+
+function setAnim(a) {
+  anim = a;
+  viewer.autoRotate = a === "spin";
+  viewer.animation = a === "walk" ? new skinview3d.WalkingAnimation() : (a === "spin" ? new skinview3d.IdleAnimation() : null);
+  if (a === "walk") viewer.animation.speed = 0.8;
+  [...$("anim").children].forEach(b => b.classList.toggle("on", b.dataset.a === a));
+}
+function setModel(m) {
+  model = m;
+  [...$("model").children].forEach(b => b.classList.toggle("on", b.dataset.m === m));
+  show(current, true);
+}
+$("anim").onclick = e => { if (e.target.dataset.a) setAnim(e.target.dataset.a); };
+$("model").onclick = e => { if (e.target.dataset.m) setModel(e.target.dataset.m); };
+
+function show(s, keepView) {
+  if (!s) return;
+  current = s;
+  viewer.loadSkin(s.file, { model });
+  $("vName").textContent = s.name;
+  $("vBy").textContent = "by " + s.by;
+  const dl = $("dl");
+  dl.href = s.file;
+  dl.setAttribute("download", (s.name || "skin").replace(/[^a-z0-9]+/gi, "-").toLowerCase() + ".png");
+  document.querySelectorAll(".sk").forEach(c => c.classList.toggle("on", c._skin === s));
+  if (!keepView) { viewer.resetCameraPose(); viewer.zoom = 0.85; }
+}
+
+/* card thumbnails: one hidden viewer renders a still picture of each skin */
+const thumbs = new skinview3d.SkinViewer({ width: 140, height: 210, preserveDrawingBuffer: true });
+thumbs.zoom = 0.9;
+thumbs.renderPaused = true;
+let queue = Promise.resolve();
+function thumb(s, img) {
+  queue = queue.then(async () => {
+    try {
+      await thumbs.loadSkin(s.file, { model: "auto-detect" });
+      thumbs.playerObject.rotation.y = 0.5;
+      thumbs.render();
+      img.src = thumbs.canvas.toDataURL("image/png");
+      img.hidden = false;
+      img.previousSibling && img.previousSibling.remove();
+    } catch (e) {}
+  });
+}
+
+function draw() {
+  const q = $("q").value.trim().toLowerCase();
+  const list = SKINS.filter(s => !q || (s.name + " " + s.by).toLowerCase().includes(q));
+  $("count").textContent = list.length + (list.length === 1 ? " skin" : " skins");
+  grid.innerHTML = "";
+  if (!list.length) {
+    const e = document.createElement("div");
+    e.className = "empty"; e.style.gridColumn = "1/-1";
+    e.textContent = 'No skins match "' + q + '".';
+    grid.appendChild(e);
+    return;
+  }
+  list.forEach(s => {
+    const c = document.createElement("div");
+    c.className = "sk" + (s === current ? " on" : "");
+    c._skin = s;
+    c.tabIndex = 0;
+    c.innerHTML = '<div class="pic"><span class="ph"></span><img alt="" hidden></div><div class="t"><div class="n"></div><div class="by"></div></div>';
+    c.querySelector(".n").textContent = s.name;
+    c.querySelector(".by").textContent = "by " + s.by;
+    c.querySelector("img").alt = s.name;
+    if (s._thumb) { const im = c.querySelector("img"); im.src = s._thumb; im.hidden = false; c.querySelector(".ph").remove(); }
+    else thumb(s, c.querySelector("img"));
+    c.querySelector("img").addEventListener("load", e => { s._thumb = e.target.src; }, { once: true });
+    c.onclick = () => show(s);
+    c.onkeydown = e => { if (e.key === "Enter") show(s); };
+    grid.appendChild(c);
+  });
+}
+$("q").oninput = draw;
+
+/* try your own skin (stays in your browser, nothing is uploaded) */
+function useFile(f) {
+  if (!f || !/png$/i.test(f.type || f.name)) return;
+  if (custom) URL.revokeObjectURL(custom.file);
+  custom = { name: f.name.replace(/\.png$/i, ""), by: "you", file: URL.createObjectURL(f) };
+  show(custom);
+}
+const drop = $("drop");
+$("file").onchange = e => useFile(e.target.files[0]);
+["dragover", "dragenter"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach(t => drop.addEventListener(t, () => drop.classList.remove("over")));
+drop.addEventListener("drop", e => { e.preventDefault(); useFile(e.dataTransfer.files[0]); });
+
+fitStage();
+setAnim("spin");
+draw();
+show(SKINS[0]);
+$("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
