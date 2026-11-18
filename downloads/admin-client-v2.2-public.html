@@ -554,12 +554,21 @@
     }
   } catch (_0xbb35b8) {}
   // free version: every code is unlocked for everyone
+  // Premium is not free: it unlocks by pulling ADMIN on glassifying.github.io/rng.html
+  var AC_RNG_URL = "glassifying.github.io/rng.html";
+  function acRngPremium() {
+    try {
+      if (window.localStorage.getItem("glassifying-premium") === "1") return true;
+      var r = JSON.parse(window.localStorage.getItem("glassifying-rng-v1") || "null");
+      return !!(r && r.admins > 0);
+    } catch (e) { return false; }
+  }
   function acFree() {
     _0x14e01b.superMode = true;
     _0x14e01b.unlocks = {
       health: true,
       cheats: true,
-      premium: true
+      premium: acRngPremium()
     };
     _0x14e01b.mods.greenGui = false;
     _0x14e01b.acHash = "";
@@ -2364,6 +2373,8 @@
           _0x53302e("Super Mode unlocked");
         } else if (_0x2b9cc6 === _0x533dad) {
           _0x1993c2();
+        } else if (_0x2b9cc6 === _0x59aecc && !acRngPremium()) {
+          _0x53302e("Premium: pull ADMIN on " + AC_RNG_URL);
         } else if (_0x2b9cc6 === _0x59aecc) {
           _0x14e01b.unlocks.premium = true;
           _0x14e01b.mods.armorHud = true;
@@ -3110,6 +3121,22 @@
     desc: "Premium • your armor + durability",
     opts: _0x2c9f63
   };
+  if (!_0x14e01b.unlocks.premium) {
+    _0x30aadc.name = "Armor HUD (locked)";
+    _0x30aadc.desc = "Premium • get it by pulling ADMIN on " + AC_RNG_URL;
+    _0x30aadc.opts = null;
+    _0x14e01b.mods.armorHud = false;
+    try { window.localStorage.setItem("ac-prem-pending", "1"); } catch (e) {}
+    _0x432e39();
+  } else {
+    try {
+      if (window.localStorage.getItem("ac-prem-pending") === "1") {
+        window.localStorage.removeItem("ac-prem-pending");
+        _0x14e01b.mods.armorHud = true;
+        _0x432e39();
+      }
+    } catch (e) {}
+  }
   var _0x4757a0 = {
     id: "autoCmd",
     tab: "Secret",
@@ -3242,6 +3269,7 @@
     var _0x36d52b = _0x32bac4("div", {
       class: "row",
       onclick: function () {
+        if (acPremLocked(_0x2acae7)) return;
         _0x14e01b.mods[_0x2acae7.id] = !_0x14e01b.mods[_0x2acae7.id];
         _0x48a617();
         if (_0x2acae7.id === "hitboxes") {
@@ -3326,7 +3354,7 @@
     }
     if (_0x10ff05 === "Secret") {
       _0x5aef72.appendChild(_0x181c16(_0x5c86bd.filter(function (_0x24505e) {
-        return _0x24505e.tab === "Secret" && _0x26723b(_0x24505e.lock);
+        return _0x24505e.tab === "Secret" && (_0x26723b(_0x24505e.lock) || _0x24505e.lock === "premium");
       })));
       _0x277cad();
       _0x31315f();
@@ -3374,7 +3402,15 @@
   // ===================== free v2.2: column click menu =====================
   var CG_COLORS = { HUD: "#4aa8a0", PvP: "#d9443b", Utility: "#e0a03a", FPS: "#5b7fd1", Secret: "#ffffff", Settings: "#9a9a9a" };
   var cgOpen = {};
+  function acPremLocked(m) {
+    if (m.lock === "premium" && !(_0x14e01b.unlocks && _0x14e01b.unlocks.premium)) {
+      _0x53302e("Locked \u2022 pull ADMIN on " + AC_RNG_URL);
+      return true;
+    }
+    return false;
+  }
   function cgToggle(m) {
+    if (acPremLocked(m)) return;
     _0x14e01b.mods[m.id] = !_0x14e01b.mods[m.id];
     _0x48a617();
     if (m.id === "hitboxes") _0x469f00("KeyB");
@@ -3449,7 +3485,7 @@
       c.appendChild(cgCol(cat, CG_COLORS[cat], mods.map(function (m) { return cgRow(m, CG_COLORS[cat]); }), true));
     });
     if (_0x3e5c38 && _0x17c8fc()) {
-      var sec = _0x5c86bd.filter(function (m) { return m.tab === "Secret" && _0x26723b(m.lock); });
+      var sec = _0x5c86bd.filter(function (m) { return m.tab === "Secret" && (_0x26723b(m.lock) || m.lock === "premium"); });
       if (sec.length) c.appendChild(cgCol("Secret", CG_COLORS.Secret, sec.map(function (m) { return cgRow(m, CG_COLORS.Secret); }), true));
     }
     c.appendChild(cgCol("Settings", CG_COLORS.Settings, [
