@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module RNG · glassifying</title>
+<meta name="description" content="Roll for Admin Client modules. 1 in 100 chance to pull ADMIN.">
+<link rel="stylesheet" href="site.css">
+<style>
+  :root{ --gold:#d4af37; --t1:#8c8c8c; --t2:#4aa8a0; --t3:#5b7fd1; --t4:#e0a03a; --t5:#d4af37; }
+
+  .stage{border:1px solid var(--line);background:var(--panel);margin-top:6px;position:relative;overflow:hidden}
+  .stage .top{display:flex;height:3px}
+  .stage .top i{flex:1}
+  .stage .top i:nth-child(1){background:var(--c1)} .stage .top i:nth-child(2){background:var(--c2)}
+  .stage .top i:nth-child(3){background:var(--c3)} .stage .top i:nth-child(4){background:var(--c4)}
+  .stage.admin .top i{background:var(--gold)}
+
+  .result{padding:46px 20px 38px;text-align:center;min-height:190px}
+  .result .tier{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+  .result .item{font-size:34px;font-weight:700;margin-top:8px;letter-spacing:.01em}
+  .result .odds{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:8px}
+  .result.spin .item{color:var(--mute)}
+  .result .item.x1{color:var(--t1)} .result .item.x2{color:var(--t2)} .result .item.x3{color:var(--t3)}
+  .result .item.x4{color:var(--t4)} .result .item.x5{color:var(--t5)}
+  .result .tier.x2{color:var(--t2)} .result .tier.x3{color:var(--t3)} .result .tier.x4{color:var(--t4)} .result .tier.x5{color:var(--t5)}
+
+  .controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:0 20px 26px}
+  .btn.roll{background:var(--c1);border-color:var(--c1);padding:10px 34px;font-size:14px}
+  .btn.roll:hover{filter:brightness(1.1)}
+  .btn.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+  .hint{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute);padding-bottom:16px}
+
+  /* ADMIN pull: flat gold bars sweep across, no glow */
+  .sweep{position:absolute;inset:0;pointer-events:none;display:none}
+  .sweep i{position:absolute;left:-40%;height:2px;width:40%;background:var(--gold)}
+  .stage.admin .sweep{display:block}
+  .stage.admin .sweep i{animation:sw 1.1s linear infinite}
+  .sweep i:nth-child(1){top:18%} .sweep i:nth-child(2){top:50%;animation-delay:.35s!important} .sweep i:nth-child(3){top:82%;animation-delay:.7s!important}
+  @keyframes sw{to{left:100%}}
+  .shake{animation:sh .45s steps(6)}
+  @keyframes sh{0%{transform:translate(0)}20%{transform:translate(-6px,2px)}40%{transform:translate(5px,-3px)}60%{transform:translate(-4px,1px)}80%{transform:translate(3px,2px)}100%{transform:translate(0)}}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-top:0;background:var(--panel)}
+  .stats div{padding:12px 14px;border-left:1px solid var(--line)}
+  .stats div:first-child{border-left:0}
+  .stats b{display:block;font-size:18px}
+  .stats span{font-family:var(--mono);font-size:10px;color:var(--mute);text-transform:uppercase;letter-spacing:.1em}
+
+  .odds-row{display:flex;border:1px solid var(--line);margin-top:10px}
+  .odds-row div{flex:1;padding:8px 10px;font-family:var(--mono);font-size:11px;color:var(--dim);border-left:1px solid var(--line);border-top:2px solid}
+  .odds-row div:first-child{border-left:0}
+
+  .coll{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+  .slot{border:1px solid var(--line);background:var(--panel);padding:10px 12px;border-left:3px solid var(--line2)}
+  .slot b{display:block;font-size:13px}
+  .slot span{font-family:var(--mono);font-size:11px;color:var(--mute)}
+  .slot.lock b{color:var(--mute)}
+  .slot.new{outline:1px solid var(--text)}
+
+  .log{border:1px solid var(--line);background:var(--panel);font-family:var(--mono);font-size:12px;max-height:180px;overflow:auto}
+  .log div{padding:5px 12px;border-top:1px solid var(--line);color:var(--dim);display:flex;justify-content:space-between}
+  .log div:first-child{border-top:0}
+  .reset{margin-top:24px}
+  @media (max-width:600px){ .stats{grid-template-columns:repeat(2,1fr)} .stats div:nth-child(3){border-left:0} .stats div:nth-child(n+3){border-top:1px solid var(--line)} .result .item{font-size:26px} .odds-row{flex-wrap:wrap} .odds-row div{flex-basis:33%} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="./"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <nav><a href="./">Releases</a><a href="features.html">Features</a><a href="changelog.html">Changelog</a><a href="mods.html">Mods</a><a href="skripts.html">Skripts</a><a href="skins.html">Skins</a><a href="projects.html">More projects</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Module RNG</h1>
+    <p>Roll for Admin Client modules and fill your collection. There's a 1 in 100 chance to pull <b style="color:var(--gold)">ADMIN</b>.</p>
+  </section>
+
+  <div class="stage" id="stage">
+    <div class="top"><i></i><i></i><i></i><i></i></div>
+    <div class="sweep"><i></i><i></i><i></i></div>
+    <div class="result" id="result">
+      <div class="tier" id="tier">Ready</div>
+      <div class="item" id="item">Press Roll</div>
+      <div class="odds" id="odds">&nbsp;</div>
+    </div>
+    <div class="controls">
+      <button class="btn roll" id="rollBtn">Roll</button>
+      <button class="btn" id="autoBtn">Auto roll</button>
+      <button class="btn" id="fastBtn">Quick roll</button>
+    </div>
+    <div class="hint">Space = roll</div>
+  </div>
+  <div class="stats">
+    <div><b id="sRolls">0</b><span>Rolls</span></div>
+    <div><b id="sAdmin">0</b><span>Admins</span></div>
+    <div><b id="sSince">0</b><span>Since last admin</span></div>
+    <div><b id="sBest">-</b><span>Best pull</span></div>
+  </div>
+
+  <div class="odds-row" id="oddsRow"></div>
+
+  <h2>Collection <span id="collCount"></span></h2>
+  <div class="coll" id="coll"></div>
+
+  <h2>Recent rolls</h2>
+  <div class="log" id="log"><div><span>No rolls yet</span><span></span></div></div>
+
+  <button class="btn reset" id="resetBtn">Reset progress</button>
+</main>
+
+<footer><div class="wrap"><span>glassifying</span><span id="yr"></span></div></footer>
+
+<script>
+/* Tiers: weights add up to 100, so ADMIN is exactly 1 in 100. */
+const TIERS = [
+  { id:1, name:"Common",    weight:60, color:"var(--t1)", items:["Keystrokes","FPS Counter","Coordinates","Ping Display","Clock"] },
+  { id:2, name:"Uncommon",  weight:25, color:"var(--t2)", items:["Armor HUD","CPS Counter","Zoom","Fullbright"] },
+  { id:3, name:"Rare",      weight:10, color:"var(--t3)", items:["Auto Fish","Toggle Sprint","Hitboxes"] },
+  { id:4, name:"Epic",      weight:4,  color:"var(--t4)", items:["Auto Log","Freelook"] },
+  { id:5, name:"Admin",     weight:1,  color:"var(--t5)", items:["ADMIN"] }
+];
+const TOTAL = TIERS.reduce((s,t)=>s+t.weight,0);
+
+const $ = id => document.getElementById(id);
+const KEY = "glassifying-rng-v1";
+let S = { rolls:0, admins:0, since:0, best:0, got:{}, log:[] };
+try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s.rolls === "number") S = Object.assign(S, s); } catch(e){}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+
+function pick(){
+  let r = Math.random() * TOTAL;
+  for (const t of TIERS){ if ((r -= t.weight) < 0) return { tier:t, item:t.items[Math.floor(Math.random()*t.items.length)] }; }
+  const t = TIERS[0]; return { tier:t, item:t.items[0] };
+}
+function oddsText(t, item){
+  const n = Math.round(TOTAL / t.weight * t.items.length);
+  return t.id === 5 ? "1 in 100" : `1 in ${n} (tier 1 in ${+(TOTAL/t.weight).toFixed(1)})`;
+}
+
+let busy = false, auto = false, fast = false, lastNew = null;
+const allItems = TIERS.flatMap(t => t.items);
+
+function roll(){
+  if (busy) return;
+  busy = true;
+  const res = pick();
+  const stage = $("stage"), item = $("item"), tier = $("tier");
+  stage.classList.remove("admin");
+  $("result").classList.add("spin");
+  item.className = "item"; tier.className = "tier";
+  tier.textContent = "Rolling"; $("odds").innerHTML = "&nbsp;";
+  const steps = fast ? 3 : 14;
+  let i = 0;
+  const tick = () => {
+    if (i < steps){
+      item.textContent = allItems[Math.floor(Math.random()*allItems.length)];
+      i++; setTimeout(tick, fast ? 25 : 30 + i*9);
+    } else finish(res);
+  };
+  tick();
+}
+
+function finish({tier:t, item:name}){
+  const stage = $("stage"), item = $("item"), tier = $("tier");
+  $("result").classList.remove("spin");
+  item.textContent = name; item.className = "item x" + t.id;
+  tier.textContent = t.name; tier.className = "tier x" + t.id;
+  $("odds").textContent = oddsText(t, name);
+
+  S.rolls++; S.since++;
+  if (t.id === 5){
+    S.admins++; S.since = 0;
+    stage.classList.add("admin");
+    stage.classList.remove("shake"); void stage.offsetWidth; stage.classList.add("shake");
+    if (auto) toggleAuto(); // stop auto roll so you see it
+  }
+  if (t.id > S.best) S.best = t.id;
+  lastNew = S.got[name] ? null : name;
+  S.got[name] = (S.got[name] || 0) + 1;
+  S.log.unshift([name, t.id, S.rolls]); S.log = S.log.slice(0, 40);
+  save(); render();
+  busy = false;
+  if (auto) setTimeout(roll, fast ? 60 : 350);
+}
+
+function render(){
+  $("sRolls").textContent = S.rolls.toLocaleString();
+  $("sAdmin").textContent = S.admins;
+  $("sSince").textContent = S.since;
+  const b = TIERS.find(t => t.id === S.best);
+  $("sBest").textContent = b ? b.name : "-";
+  $("sBest").style.color = b ? b.color : "";
+
+  const coll = $("coll"); coll.innerHTML = "";
+  let have = 0;
+  TIERS.forEach(t => t.items.forEach(name => {
+    const n = S.got[name] || 0; if (n) have++;
+    const d = document.createElement("div");
+    d.className = "slot" + (n ? "" : " lock") + (name === lastNew ? " new" : "");
+    d.style.borderLeftColor = n ? t.color : "";
+    d.innerHTML = "<b></b><span></span>";
+    d.querySelector("b").textContent = n ? name : "???";
+    d.querySelector("span").textContent = t.name + (n ? " · x" + n : "");
+    coll.appendChild(d);
+  }));
+  $("collCount").textContent = `· ${have}/${allItems.length}`;
+
+  const log = $("log");
+  if (S.log.length){
+    log.innerHTML = "";
+    S.log.forEach(([name, id, n]) => {
+      const t = TIERS.find(x => x.id === id);
+      const d = document.createElement("div");
+      d.innerHTML = "<span></span><span></span>";
+      d.children[0].textContent = name; d.children[0].style.color = t.color;
+      d.children[1].textContent = "#" + n;
+      log.appendChild(d);
+    });
+  }
+}
+
+function toggleAuto(){ auto = !auto; $("autoBtn").classList.toggle("on", auto); $("autoBtn").textContent = auto ? "Stop auto" : "Auto roll"; if (auto && !busy) roll(); }
+$("rollBtn").onclick = roll;
+$("autoBtn").onclick = toggleAuto;
+$("fastBtn").onclick = () => { fast = !fast; $("fastBtn").classList.toggle("on", fast); };
+$("resetBtn").onclick = () => {
+  if (auto) toggleAuto();
+  S = { rolls:0, admins:0, since:0, best:0, got:{}, log:[] }; lastNew = null; save(); render();
+  $("log").innerHTML = "<div><span>No rolls yet</span><span></span></div>";
+  $("stage").classList.remove("admin");
+  $("tier").textContent = "Ready"; $("tier").className = "tier";
+  $("item").textContent = "Press Roll"; $("item").className = "item"; $("odds").innerHTML = "&nbsp;";
+};
+document.addEventListener("keydown", e => { if (e.code === "Space" && e.target === document.body){ e.preventDefault(); roll(); } });
+
+$("oddsRow").innerHTML = TIERS.map(t => `<div style="border-top-color:${t.color}"><span style="color:${t.color}">${t.name}</span> ${t.weight}%</div>`).join("");
+$("yr").textContent = new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
