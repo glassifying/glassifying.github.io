@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BM Client · glassifying</title>
+<meta name="description" content="BM Client: build and test tools for Blueberry Playground">
+<link rel="stylesheet" href="../site.css">
+<style>
+  .bmk{display:inline-block;font-family:var(--mono);font-weight:600;color:var(--bg);background:var(--c2);border:1px dashed var(--bg);outline:1px solid var(--c2);padding:8px 16px;text-decoration:none;cursor:grab}
+  ol.steps{color:var(--dim);font-size:13px;margin:8px 0 0 20px} ol.steps li{margin-top:4px}
+  code{font-family:var(--mono);font-size:12px;color:var(--c2);border:1px solid var(--line2);padding:0 4px}
+  textarea{width:100%;height:64px;margin-top:8px;background:var(--bg);color:var(--c2);border:1px solid var(--line2);font:11px var(--mono);padding:8px;resize:vertical}
+  .full{display:block}.full .info{padding-bottom:16px}
+  #status{font-family:var(--mono);font-size:12px;color:var(--c3);margin-top:8px}
+  #frame{position:fixed;inset:0;width:100%;height:100%;border:0;display:none;background:#000;z-index:10}
+  .note{color:var(--mute);font-size:12px;margin-top:8px}
+  section{margin-top:26px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="../"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <nav><a href="../">Releases</a><a href="../features.html">Features</a><a href="../changelog.html">Changelog</a><a href="../mods.html">Mods</a><a href="../skripts.html">Skripts</a><a href="../skins.html">Skins</a><a href="../packs.html">Packs</a><a href="../projects.html" class="on">More projects</a></nav>
+  </div>
+</header>
+
+<main class="wrap" id="page">
+  <section class="intro">
+    <h1>BM Client</h1>
+    <p>Build and test tools for Blueberry Playground, from the Beech Marten Council. It sits on top of the real game and only shows you information or works on your own builds. It doesn't change the rules, time, ranges, or anyone else's stuff.</p>
+  </section>
+
+  <h2>Install</h2>
+
+  <div class="card full k2"><div class="info">
+    <div class="name">Option 1: Bookmarklet <span class="tag v2">easiest</span></div>
+    <ol class="steps">
+      <li>Show your bookmarks bar (<code>Ctrl+Shift+B</code>).</li>
+      <li>Drag this onto the bookmarks bar: &nbsp;<a class="bmk" id="bm" href="#">BM Client</a></li>
+      <li>Open Blueberry Playground and press Play.</li>
+      <li>Click the <b>BM Client</b> bookmark. Press <code>`</code> to hide or show the panel.</li>
+    </ol>
+    <div class="note">Can't drag it? Make a bookmark by hand, name it BM Client, and paste this as the URL:</div>
+    <textarea id="bmtext" readonly></textarea>
+  </div></div>
+
+  <div class="card full k3"><div class="info">
+    <div class="name">Option 2: Your own downloaded copy</div>
+    <div class="notes">If you saved Blueberry Playground as an .html file, pick it here and it opens with the client added. The file stays on your computer; nothing gets uploaded.</div>
+    <div style="margin-top:10px"><label class="btn">Choose game file<input id="pick" type="file" accept=".html,.htm" hidden></label></div>
+    <div id="status"></div>
+    <div class="note">Multiplayer may not connect this way, because the game is running from your file instead of its own site. Use Option 1 for multiplayer.</div>
+  </div></div>
+
+  <div class="card full k4"><div class="info">
+    <div class="name">Option 3: Userscript</div>
+    <div class="notes">With Tampermonkey or Violentmonkey, install <a href="bmc.user.js">bmc.user.js</a> and the client loads every time you open the game.</div>
+  </div></div>
+
+  <section>
+    <h2>What it does</h2>
+    <div class="grid">
+      <div class="feat"><b>BM build library</b><span>Pick a Beech Marten build and click to place it.</span></div>
+      <div class="feat"><b>Checkpoints</b><span>Track your build; it auto-saves when you add parts, not when it gets damaged. Respawn the last good copy.</span></div>
+      <div class="feat"><b>Tournament check</b><span>Flags banned materials, the nuke, and edited health.</span></div>
+      <div class="feat"><b>Damage numbers</b><span>See every hit and how hard.</span></div>
+      <div class="feat"><b>Hover info</b><span>Name, health bar, power, range and aim of whatever you point at.</span></div>
+      <div class="feat"><b>Aim lines</b><span>Where your guns are pointing. Your build only in multiplayer.</span></div>
+      <div class="feat"><b>Wire view</b><span>Blue dot = input, orange = output, yellow line = powered.</span></div>
+      <div class="feat"><b>Sensor beams</b><span>See each sensor's beam and range.</span></div>
+      <div class="feat"><b>Jiggle meter</b><span>Highlights parts of your build that are spinning or shaking.</span></div>
+      <div class="feat"><b>Center of mass</b><span>Shows why a build tips over.</span></div>
+      <div class="feat"><b>Ruler</b><span>Press <code>\</code> twice to measure distance.</span></div>
+      <div class="feat"><b>Replay</b><span>Ghost replay of the last 5 seconds at quarter speed.</span></div>
+      <div class="feat"><b>Lag meter</b><span>FPS, physics time and body count.</span></div>
+      <div class="feat"><b>Test range</b><span>Frozen dummies and balloon planes. Single player only.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Fair play</h2>
+    <p class="note">A small "BM Client on" tag shows in the corner so nobody thinks you're hiding it. In multiplayer the test range is off and aim lines only show your own build. Blueberry Playground belongs to its developer; this page doesn't contain or share the game.</p>
+  </section>
+</main>
+
+<iframe id="frame" title="Blueberry Playground with BM Client"></iframe>
+
+<footer><div class="wrap"><span>glassifying</span><span id="yr"></span></div></footer>
+
+<script>
+(function () {
+  var here = location.href.replace(/[#?].*$/, '').replace(/[^\/]*$/, '');
+  var client = here + 'client.js', builds = here + 'builds.js';
+
+  var code = "javascript:(function(){var s=document.createElement('script');s.src='" + client + "?t='+Date.now();document.body.appendChild(s);})();";
+  var bm = document.getElementById('bm');
+  bm.href = code;
+  bm.onclick = function (e) { e.preventDefault(); alert('Drag this to your bookmarks bar, then click it while Blueberry Playground is open.'); };
+  document.getElementById('bmtext').value = code;
+
+  document.getElementById('pick').onchange = function (e) {
+    var f = e.target.files[0]; if (!f) return;
+    var st = document.getElementById('status'); st.textContent = 'Loading ' + f.name + '...';
+    var r = new FileReader();
+    r.onload = function () {
+      var html = String(r.result);
+      if (!/blueberry/i.test(html)) { st.textContent = "That doesn't look like Blueberry Playground."; return; }
+      var add = '<script>window.BMC_BASE=' + JSON.stringify(here) + ';<\/script>' +
+                '<script src="' + builds + '"><\/script><script src="' + client + '"><\/script>';
+      var i = html.lastIndexOf('</body>');
+      html = i >= 0 ? html.slice(0, i) + add + html.slice(i) : html + add;
+      var fr = document.getElementById('frame');
+      fr.src = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+      fr.style.display = 'block';
+      document.title = 'Blueberry Playground + BM Client';
+    };
+    r.onerror = function () { st.textContent = 'Could not read that file.'; };
+    r.readAsText(f);
+  };
+  document.getElementById('yr').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
