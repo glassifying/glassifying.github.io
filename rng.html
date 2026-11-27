@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Module RNG · glassifying</title>
-<meta name="description" content="Roll for Admin Client modules. Pull ADMIN to unlock Premium in Admin Client.">
+<meta name="description" content="Roll for Beech Marten Client modules. Pull BEECH MARTEN to unlock Premium in Beech Marten Client.">
 <link rel="stylesheet" href="site.css">
 <style>
   :root{ --gold:#d4af37; --t1:#8c8c8c; --t2:#4aa8a0; --t3:#5b7fd1; --t4:#e0a03a; --t5:#d4af37; }
@@ -69,7 +69,7 @@
 
 <header>
   <div class="wrap">
-    <a class="logo" href="./"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
+    <a class="logo" href="./"><span class="bars"><i></i><i></i><i></i><i></i></span>Beech Marten Client</a>
     <nav><a href="./">Releases</a><a href="features.html">Features</a><a href="changelog.html">Changelog</a><a href="mods.html">Mods</a><a href="skripts.html">Skripts</a><a href="skins.html">Skins</a><a href="packs.html">Packs</a><a href="projects.html">More projects</a></nav>
   </div>
 </header>
@@ -77,7 +77,7 @@
 <main class="wrap">
   <section class="intro">
     <h1>Module RNG</h1>
-    <p>Roll for Admin Client modules and fill your collection. Most rolls are duds. Pull <b style="color:var(--gold)">ADMIN</b> (1 in 1,000) to unlock <b>Premium</b> in Admin Client.</p>
+    <p>Roll for Beech Marten Client modules and fill your collection. Most rolls are duds. Pull <b style="color:var(--gold)">BEECH MARTEN</b> (1 in 1,000) to unlock <b>Premium</b> in Beech Marten Client.</p>
   </section>
 
   <div class="stage" id="stage">
@@ -97,9 +97,9 @@
   </div>
   <div class="stats">
     <div><b id="sRolls">0</b><span>Rolls</span></div>
-    <div><b id="sAdmin">0</b><span>Admins</span></div>
+    <div><b id="sAdmin">0</b><span>Martens</span></div>
     <div><b id="sPrem">Locked</b><span>Premium</span></div>
-    <div><b id="sSince">0</b><span>Since last admin</span></div>
+    <div><b id="sSince">0</b><span>Since last marten</span></div>
     <div><b id="sBest">-</b><span>Best pull</span></div>
   </div>
 
@@ -118,14 +118,14 @@
 
 <script>
 /* Weights add up to 1000: 90% dud, and the rest keep their old ratios.
-   ADMIN is 1 in 1000 and unlocks Premium in Admin Client (same site storage). */
+   ADMIN is 1 in 1000 and unlocks Premium in Beech Marten Client (same site storage). */
 const DUD = { id:0, name:"Dud", weight:900, color:"var(--mute)", items:["Nothing"] };
 const TIERS = [
   { id:1, name:"Common",    weight:60, color:"var(--t1)", items:["Keystrokes","FPS Counter","Coordinates","Ping Display","Clock"] },
   { id:2, name:"Uncommon",  weight:25, color:"var(--t2)", items:["Armor HUD","CPS Counter","Zoom","Fullbright"] },
   { id:3, name:"Rare",      weight:10, color:"var(--t3)", items:["Auto Fish","Toggle Sprint","Hitboxes"] },
   { id:4, name:"Epic",      weight:4,  color:"var(--t4)", items:["Auto Log","Freelook"] },
-  { id:5, name:"Admin",     weight:1,  color:"var(--t5)", items:["ADMIN"] }
+  { id:5, name:"Beech Marten",     weight:1,  color:"var(--t5)", items:["BEECH MARTEN"] }
 ];
 const TOTAL = DUD.weight + TIERS.reduce((s,t)=>s+t.weight,0);
 
@@ -144,7 +144,7 @@ function pick(){
 function oddsText(t, item){
   if (t.id === 0) return "90% of rolls";
   const n = Math.round(TOTAL / t.weight * t.items.length);
-  return t.id === 5 ? "1 in 1,000 \u00b7 Premium unlocked in Admin Client" : `1 in ${n.toLocaleString()} (tier 1 in ${+(TOTAL/t.weight).toFixed(1)})`;
+  return t.id === 5 ? "1 in 1,000 \u00b7 Premium unlocked in Beech Marten Client" : `1 in ${n.toLocaleString()} (tier 1 in ${+(TOTAL/t.weight).toFixed(1)})`;
 }
 
 let busy = false, auto = false, fast = false, lastNew = null;

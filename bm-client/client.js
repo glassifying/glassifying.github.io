@@ -6,10 +6,6 @@
 (function () {
   'use strict';
   var VERSION = '1.0';
-  var BASE = (function () {
-    try { var s = document.currentScript && document.currentScript.src; if (s) return s.replace(/[^\/]*$/, ''); } catch (e) {}
-    return window.BMC_BASE || '';
-  })();
 
   function findGame() {
     if (window.bp && window.bp.game) return window;
@@ -25,14 +21,7 @@
     var W = findGame();
     if (W) {
       if (W.BMC) { W.BMC.toggle(); return; }
-      if (W.BMC_BUILDS || window.BMC_BUILDS) return start(W);
-      // load the build library next to client.js
-      var s = W.document.createElement('script');
-      s.src = BASE + 'builds.js';
-      s.onload = function () { start(W); };
-      s.onerror = function () { start(W); };
-      W.document.head.appendChild(s);
-      return;
+      return start(W);
     }
     if (tries++ === 0) note('BM Client: waiting for the game... press Play first.');
     if (tries < 240) setTimeout(wait, 500); else note('BM Client: could not find Blueberry Playground on this page.');
@@ -42,7 +31,7 @@
     try {
       var d = document.createElement('div');
       d.textContent = msg;
-      d.style.cssText = 'position:fixed;z-index:2147483647;left:50%;top:12px;transform:translateX(-50%);background:#121212;color:#e0a03a;font:13px monospace;padding:8px 14px;border:2px solid #e0a03a;border-radius:6px';
+      d.style.cssText = 'position:fixed;z-index:2147483647;left:50%;top:12px;transform:translateX(-50%);background:#141210;color:#d6966e;font:13px monospace;padding:8px 14px;border:2px solid #d6966e;border-radius:6px';
       document.body.appendChild(d); setTimeout(function () { d.remove(); }, 4000);
     } catch (e) {}
   }
@@ -50,8 +39,7 @@
   /* ================================================================= */
   function start(W) {
     var D = W.document, bp = W.bp, g = bp.game, ctl = bp.controls, ui = bp.ui, C = g.connections;
-    var BUILDS = W.BMC_BUILDS || window.BMC_BUILDS || [];
-    var LOGO = W.BMC_LOGO || window.BMC_LOGO || '';
+    var LOGO = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNiAxNSIgc2hhcGUtcmVuZGVyaW5nPSJjcmlzcEVkZ2VzIj48cmVjdCB4PSIzIiB5PSIwIiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTYiIHk9IjAiIHdpZHRoPSIzIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIyMiIgeT0iMCIgd2lkdGg9IjMiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjMiIHk9IjEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSI0IiB5PSIxIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjRDY5NjZFIi8+PHJlY3QgeD0iNSIgeT0iMSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjE2IiB5PSIxIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTciIHk9IjEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNENjk2NkUiLz48cmVjdCB4PSIxOCIgeT0iMSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjIyIiB5PSIxIiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMyIgeT0iMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIyMiIgeT0iMiIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjI0IiB5PSIyIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMyIgeT0iMyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIyMiIgeT0iMyIgd2lkdGg9IjMiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjMiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjQiIHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI1IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iNyIgeT0iNSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjgiIHk9IjUiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxNCIgeT0iNSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjE1IiB5PSI1IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjUiIHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI2IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iNyIgeT0iNiIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjgiIHk9IjYiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxNCIgeT0iNiIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjE1IiB5PSI2IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjYiIHdpZHRoPSIzIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxIiB5PSI3IiB3aWR0aD0iOSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMTAiIHk9IjciIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiMxODE0MTIiLz48cmVjdCB4PSIxMiIgeT0iNyIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjIxIiB5PSI3IiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMSIgeT0iOCIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjgiIHk9IjgiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxNCIgeT0iOCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI5IiB3aWR0aD0iNSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iOCIgeT0iOSIgd2lkdGg9IjYiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjE0IiB5PSI5IiB3aWR0aD0iMTAiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjMiIHk9IjEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iOCIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxMCIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxMiIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxNCIgeT0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMyIgeT0iMTEiIHdpZHRoPSI1IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSI4IiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjEwIiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjEyIiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjE0IiB5PSIxMSIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjQiIHk9IjEyIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iNyIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIxNCIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIxNyIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSI0IiB5PSIxMyIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjciIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTQiIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTciIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PC9zdmc+';
     var U = 32; // px per world unit
 
     /* ---------- settings (saved per browser) ---------- */
@@ -395,11 +383,11 @@
     function box(lines, x, y, frac) {
       var w = 0; lines.forEach(function (l) { w = Math.max(w, cx.measureText(l).width); });
       var h = lines.length * 15 + (frac !== null ? 10 : 4);
-      cx.fillStyle = 'rgba(14,14,14,0.92)'; cx.strokeStyle = '#e0a03a'; cx.lineWidth = 1;
+      cx.fillStyle = 'rgba(14,14,14,0.92)'; cx.strokeStyle = '#d6966e'; cx.lineWidth = 1;
       cx.fillRect(x, y, w + 14, h); cx.strokeRect(x, y, w + 14, h);
-      cx.fillStyle = '#e6dcc4'; lines.forEach(function (l, i) { cx.fillText(l, x + 7, y + 10 + i * 15); });
+      cx.fillStyle = '#f5e9cc'; lines.forEach(function (l, i) { cx.fillText(l, x + 7, y + 10 + i * 15); });
       if (frac !== null) {
-        var bw = w, by = y + h - 7; cx.fillStyle = '#333333'; cx.fillRect(x + 7, by, bw, 4);
+        var bw = w, by = y + h - 7; cx.fillStyle = '#3a2e24'; cx.fillRect(x + 7, by, bw, 4);
         cx.fillStyle = frac > 0.6 ? '#5ad35a' : frac > 0.3 ? '#f0c030' : '#ff4040'; cx.fillRect(x + 7, by, bw * Math.max(0, Math.min(1, frac)), 4);
       }
     }
@@ -421,29 +409,28 @@
     /* ================= PANEL UI ================= */
     var css = D.createElement('style');
     css.textContent = [
-      '#bmc{position:fixed;z-index:99999;right:64px;top:56px;width:250px;background:#121212;color:#dcdcdc;font:12px/1.35 monospace;border:1px solid #e0a03a;border-radius:6px;user-select:none}',
-      '#bmc header{display:flex;align-items:center;gap:8px;padding:6px 8px;background:#1b1b1b;border-radius:6px 6px 0 0;cursor:move}',
-      '#bmc header img{width:22px;height:22px;image-rendering:pixelated;border-radius:3px}',
-      '#bmc header b{color:#e0a03a;flex:1}#bmc header span{cursor:pointer;padding:0 4px;color:#aaa}',
+      '#bmc{position:fixed;z-index:99999;right:64px;top:56px;width:250px;background:#141210;color:#e8e0d0;font:12px/1.35 monospace;border:1px solid #b06e3a;border-radius:6px;user-select:none}',
+      '#bmc header{display:flex;align-items:center;gap:8px;padding:6px 8px;background:#1f1a16;border-radius:6px 6px 0 0;cursor:move}',
+      '#bmc header img{width:31px;height:18px;image-rendering:pixelated;border-radius:3px}',
+      '#bmc header b{color:#d6966e;flex:1}#bmc header span{cursor:pointer;padding:0 4px;color:#aaa}',
       '#bmc .bd{max-height:70vh;overflow:auto;padding:6px 8px 8px}',
-      '#bmc h4{margin:8px 0 4px;color:#e0a03a;font-size:11px;letter-spacing:1px;border-bottom:1px solid #333333}',
-      '#bmc button{background:#222222;color:#dcdcdc;border:1px solid #3a3a3a;border-radius:4px;padding:3px 6px;margin:2px 2px 2px 0;font:11px monospace;cursor:pointer}',
-      '#bmc button:hover{background:#2c2c2c;border-color:#e0a03a}',
+      '#bmc h4{margin:8px 0 4px;color:#d6966e;font-size:11px;letter-spacing:1px;border-bottom:1px solid #3a2e24}',
+      '#bmc button{background:#262019;color:#e8e0d0;border:1px solid #4a3a2c;border-radius:4px;padding:3px 6px;margin:2px 2px 2px 0;font:11px monospace;cursor:pointer}',
+      '#bmc button:hover{background:#33291f;border-color:#d6966e}',
       '#bmc label{display:flex;align-items:center;gap:6px;cursor:pointer;margin:1px 0}',
-      '#bmc select{width:100%;background:#222222;color:#dcdcdc;border:1px solid #3a3a3a;font:11px monospace;margin:2px 0}',
-      '#bmc .mut{color:#9a9a9a;font-size:11px}#bmc .warn{color:#ff8080}#bmc .ok{color:#7dff9a}',
-      '#bmc-rep{position:fixed;z-index:100000;left:50%;top:80px;transform:translateX(-50%);min-width:320px;max-width:520px;background:#121212;color:#dcdcdc;border:1px solid #e0a03a;border-radius:6px;font:12px monospace;padding:10px 12px}',
-      '#bmc-rep b{color:#e0a03a}#bmc-rep div{margin:3px 0}#bmc-rep button{margin-top:8px;background:#222222;color:#dcdcdc;border:1px solid #3a3a3a;border-radius:4px;padding:3px 10px;font:11px monospace;cursor:pointer}',
-      '#bmc-tag{position:fixed;z-index:99998;left:8px;bottom:8px;background:#121212cc;color:#e0a03a;border:1px solid #e0a03a;border-radius:5px;font:11px monospace;padding:2px 7px;cursor:pointer}'
+      '#bmc select{width:100%;background:#262019;color:#e8e0d0;border:1px solid #4a3a2c;font:11px monospace;margin:2px 0}',
+      '#bmc .mut{color:#a39888;font-size:11px}#bmc .warn{color:#ff8080}#bmc .ok{color:#7dff9a}',
+      '#bmc-rep{position:fixed;z-index:100000;left:50%;top:80px;transform:translateX(-50%);min-width:320px;max-width:520px;background:#141210;color:#e8e0d0;border:1px solid #d6966e;border-radius:6px;font:12px monospace;padding:10px 12px}',
+      '#bmc-rep b{color:#d6966e}#bmc-rep div{margin:3px 0}#bmc-rep button{margin-top:8px;background:#262019;color:#e8e0d0;border:1px solid #4a3a2c;border-radius:4px;padding:3px 10px;font:11px monospace;cursor:pointer}',
+      '#bmc-tag{position:fixed;z-index:99998;left:8px;bottom:8px;background:#141210e6;color:#d6966e;border:1px solid #d6966e;border-radius:5px;font:11px monospace;padding:2px 7px;cursor:pointer}'
     ].join('\n');
     D.head.appendChild(css);
 
     var P = D.createElement('div'); P.id = 'bmc';
     P.innerHTML =
-      '<header><img src="' + LOGO + '" alt=""><b>BM CLIENT v' + VERSION + '</b><span id="bmc-min" title="Hide (` key)">_</span></header>' +
+      '<header><img src="' + LOGO + '" alt=""><b>BM CLIENT</b><i style="color:#a39888;font-style:normal">v' + VERSION + '</i><span id="bmc-min" title="Hide (` key)">_</span></header>' +
       '<div class="bd">' +
       '<div id="bmc-mode" class="mut"></div>' +
-      '<h4>BM BUILDS</h4><select id="bmc-builds"></select><button id="bmc-spawn">Spawn selected build</button>' +
       '<h4>MY BUILD + CHECKPOINTS</h4>' +
       '<div id="bmc-track" class="mut">Not tracking anything</div>' +
       '<button id="bmc-trk">Track selected</button><button id="bmc-cp">Save checkpoint</button><br>' +
@@ -462,10 +449,6 @@
     tag.onclick = function () { toggle(true); };
     function $(id) { return D.getElementById(id); }
 
-    var sel = $('bmc-builds');
-    BUILDS.forEach(function (b, i) { var o = D.createElement('option'); o.value = i; o.textContent = b.name; sel.appendChild(o); });
-    if (!BUILDS.length) { var o0 = D.createElement('option'); o0.textContent = '(library did not load)'; sel.appendChild(o0); }
-    $('bmc-spawn').onclick = function () { var b = BUILDS[+sel.value]; if (b) arm('BM - ' + b.name, b.snap); };
     $('bmc-trk').onclick = trackFromSelection;
     $('bmc-cp').onclick = function () { checkpoint(true); toast('Checkpoint saved'); };
     $('bmc-rst').onclick = function () { restore(+$('bmc-cps').value || 0); };

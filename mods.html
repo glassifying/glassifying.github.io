@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mods · Admin Client</title>
+<title>Mods · Beech Marten Client</title>
 <meta name="robots" content="noindex">
 <style>
   :root{
@@ -106,7 +106,7 @@
 <body>
 <header>
   <div class="wrap">
-    <div class="logo"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</div>
+    <div class="logo"><span class="bars"><i></i><i></i><i></i><i></i></span>Beech Marten Client</div>
     <nav><a href="./">Releases</a><a href="features.html">Features</a><a href="changelog.html">Changelog</a><a href="mods.html">Mods</a><a href="skripts.html">Skripts</a><a href="skins.html">Skins</a><a href="packs.html">Packs</a><a href="projects.html">More projects</a></nav>
   </div>
 </header>
@@ -125,14 +125,14 @@
     <div id="list"></div>
     <h2>Notes</h2>
     <div class="terms"><ul>
-      <li><b>Works in Admin Client</b> means it runs with the Admin Client ModAPI.</li>
-      <li><b>EaglerForge</b> mods are made for EaglerForge (Eaglercraft 1.8.8) and won't run in Admin Client yet.</li>
+      <li><b>Works in Beech Marten Client</b> means it runs with the Beech Marten Client ModAPI.</li>
+      <li><b>EaglerForge</b> mods are made for EaglerForge (Eaglercraft 1.8.8) and won't run in Beech Marten Client yet.</li>
       <li>Some of these are cheats. Only use them where the server allows it.</li>
       <li>Don't share these files or this page.</li>
     </ul></div>
   </div>
 </main>
-<footer style="position:relative"><div class="wrap"><span>Admin Client</span><span></span></div><div class="wrap" style="position:relative;padding-bottom:18px"><div style="font-family:var(--mono);font-size:9px;color:#2f2f2f;letter-spacing:.04em;word-spacing:2px;user-select:text">map · a·15  b·98  c·71  d·79  e·8  f·18  g·41  h·56  i·61  j·72  k·88  l·46  m·44  n·73  o·54  p·23  q·48  r·10  s·6  t·91  u·34  v·68  w·59  x·24  y·40  z·32</div><svg class="shape" data-h="read the smallest print" style="right:20px;top:-46px" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="2" y="2" width="26" height="26" fill="none" stroke="#dcdcdc" stroke-width="2"/><rect x="9" y="9" width="12" height="12" fill="none" stroke="#dcdcdc" stroke-width="2" transform="rotate(45 15 15)"/></svg></div></footer>
+<footer style="position:relative"><div class="wrap"><span>Beech Marten Client</span><span></span></div><div class="wrap" style="position:relative;padding-bottom:18px"><div style="font-family:var(--mono);font-size:9px;color:#2f2f2f;letter-spacing:.04em;word-spacing:2px;user-select:text">map · a·15  b·98  c·71  d·79  e·8  f·18  g·41  h·56  i·61  j·72  k·88  l·46  m·44  n·73  o·54  p·23  q·48  r·10  s·6  t·91  u·34  v·68  w·59  x·24  y·40  z·32</div><svg class="shape" data-h="read the smallest print" style="right:20px;top:-46px" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="2" y="2" width="26" height="26" fill="none" stroke="#dcdcdc" stroke-width="2"/><rect x="9" y="9" width="12" height="12" fill="none" stroke="#dcdcdc" stroke-width="2" transform="rotate(45 15 15)"/></svg></div></footer>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)}, te=new TextEncoder(), td=new TextDecoder();
@@ -164,7 +164,7 @@
       var ok=m.works==="admin";
       row.innerHTML='<div class="edge"></div><div class="info"><div class="name"></div><div class="sub"></div><div class="notes"></div></div><div class="act"><button class="btn">Download</button></div>';
       row.querySelector(".name").textContent=m.name;
-      var t=document.createElement("span");t.className="tag"+(ok?" ok":"");t.textContent=ok?"WORKS IN ADMIN CLIENT":"EAGLERFORGE";
+      var t=document.createElement("span");t.className="tag"+(ok?" ok":"");t.textContent=ok?"WORKS IN BEECH MARTEN CLIENT":"EAGLERFORGE";
       row.querySelector(".name").appendChild(t);
       row.querySelector(".sub").textContent=(Math.max(1,Math.round(m.code.length/1024)))+" KB";
       row.querySelector(".notes").textContent=m.desc;

@@ -3,41 +3,64 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BM Client · glassifying</title>
-<meta name="description" content="BM Client: build and test tools for Blueberry Playground">
-<link rel="stylesheet" href="../site.css">
+<title>BM Client · Blueberry Playground</title>
+<meta name="description" content="BM Client: build and test tools for Blueberry Playground, by the Beech Marten Council">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNiAxNSIgc2hhcGUtcmVuZGVyaW5nPSJjcmlzcEVkZ2VzIj48cmVjdCB4PSIzIiB5PSIwIiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTYiIHk9IjAiIHdpZHRoPSIzIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIyMiIgeT0iMCIgd2lkdGg9IjMiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjMiIHk9IjEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSI0IiB5PSIxIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjRDY5NjZFIi8+PHJlY3QgeD0iNSIgeT0iMSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjE2IiB5PSIxIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTciIHk9IjEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNENjk2NkUiLz48cmVjdCB4PSIxOCIgeT0iMSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjIyIiB5PSIxIiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMyIgeT0iMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIyMiIgeT0iMiIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjI0IiB5PSIyIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMyIgeT0iMyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIyMiIgeT0iMyIgd2lkdGg9IjMiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjMiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjQiIHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI1IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iNyIgeT0iNSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjgiIHk9IjUiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxNCIgeT0iNSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjE1IiB5PSI1IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjUiIHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI2IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iNyIgeT0iNiIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjgiIHk9IjYiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxNCIgeT0iNiIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjE1IiB5PSI2IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjYiIHdpZHRoPSIzIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxIiB5PSI3IiB3aWR0aD0iOSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMTAiIHk9IjciIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiMxODE0MTIiLz48cmVjdCB4PSIxMiIgeT0iNyIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjIxIiB5PSI3IiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMSIgeT0iOCIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjgiIHk9IjgiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxNCIgeT0iOCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI5IiB3aWR0aD0iNSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iOCIgeT0iOSIgd2lkdGg9IjYiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjE0IiB5PSI5IiB3aWR0aD0iMTAiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjMiIHk9IjEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iOCIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxMCIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxMiIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxNCIgeT0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMyIgeT0iMTEiIHdpZHRoPSI1IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSI4IiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjEwIiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjEyIiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjE0IiB5PSIxMSIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjQiIHk9IjEyIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iNyIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIxNCIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIxNyIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSI0IiB5PSIxMyIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjciIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTQiIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTciIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PC9zdmc+">
 <style>
-  .bmk{display:inline-block;font-family:var(--mono);font-weight:600;color:var(--bg);background:var(--c2);border:1px dashed var(--bg);outline:1px solid var(--c2);padding:8px 16px;text-decoration:none;cursor:grab}
-  ol.steps{color:var(--dim);font-size:13px;margin:8px 0 0 20px} ol.steps li{margin-top:4px}
-  code{font-family:var(--mono);font-size:12px;color:var(--c2);border:1px solid var(--line2);padding:0 4px}
-  textarea{width:100%;height:64px;margin-top:8px;background:var(--bg);color:var(--c2);border:1px solid var(--line2);font:11px var(--mono);padding:8px;resize:vertical}
-  .full{display:block}.full .info{padding-bottom:16px}
-  #status{font-family:var(--mono);font-size:12px;color:var(--c3);margin-top:8px}
-  #frame{position:fixed;inset:0;width:100%;height:100%;border:0;display:none;background:#000;z-index:10}
+  :root{--bg:#141210;--panel:#1c1916;--line:#2e2924;--line2:#433b33;--text:#e8e0d0;--dim:#a39888;--mute:#6f665b;--fur:#b06e3a;--bib:#f5e9cc;--ear:#d6966e;--teal:#4aa8a0;--mono:Consolas,"Courier New",monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.55}
+  a{color:var(--ear)}
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px}
+  header{border-bottom:1px solid var(--line)}
+  header .wrap{display:flex;align-items:center;gap:12px;min-height:64px}
+  header img{width:42px;height:24px;image-rendering:pixelated}
+  header b{font-family:Silkscreen,var(--mono);font-size:16px;letter-spacing:1px;color:var(--bib)}
+  header span{font-family:var(--mono);font-size:11px;color:var(--mute);margin-left:auto}
+  .intro{padding:36px 0 8px;display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+  .intro img{width:182px;height:105px;image-rendering:pixelated}
+  .intro div{flex:1 1 320px}
+  h1{font-family:Silkscreen,var(--mono);font-size:34px;letter-spacing:1px;color:var(--bib)}
+  .intro p{color:var(--dim);margin-top:8px}
+  h2{font-family:Silkscreen,var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin:30px 0 10px}
+  .card{border:1px solid var(--line);background:var(--panel);border-left:3px solid var(--fur);padding:14px 16px;margin-bottom:10px}
+  .card.b{border-left-color:var(--ear)} .card.c{border-left-color:var(--teal)}
+  .name{font-weight:600}
+  .tag{font-family:var(--mono);font-size:10px;padding:1px 6px;border:1px solid var(--ear);color:var(--ear);margin-left:8px;vertical-align:2px}
+  ol{color:var(--dim);font-size:13px;margin:8px 0 0 20px} li{margin-top:4px}
+  .notes{color:var(--dim);font-size:13px;margin-top:6px}
+  code{font-family:var(--mono);font-size:12px;color:var(--bib);border:1px solid var(--line2);padding:0 4px}
+  .bmk{display:inline-block;font-family:Silkscreen,var(--mono);font-weight:700;color:var(--bg);background:var(--bib);border:1px dashed var(--bg);outline:1px solid var(--bib);padding:7px 14px;text-decoration:none;cursor:grab}
+  .btn{display:inline-block;font-size:13px;font-weight:600;color:var(--text);background:#262220;border:1px solid var(--line2);padding:8px 16px;cursor:pointer;margin-top:10px}
+  .btn:hover{border-color:var(--fur)}
+  textarea{width:100%;height:62px;margin-top:8px;background:var(--bg);color:var(--bib);border:1px solid var(--line2);font:11px var(--mono);padding:8px;resize:vertical}
   .note{color:var(--mute);font-size:12px;margin-top:8px}
-  section{margin-top:26px}
+  #status{font-family:var(--mono);font-size:12px;color:var(--teal);margin-top:8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+  .feat{border:1px solid var(--line);background:var(--panel);border-top:2px solid var(--fur);padding:11px 13px}
+  .feat b{display:block;font-size:13px} .feat span{display:block;color:var(--dim);font-size:12px;margin-top:3px}
+  footer{border-top:1px solid var(--line);margin-top:40px} footer .wrap{padding:16px 20px;font-family:var(--mono);font-size:11px;color:var(--mute)}
+  #frame{position:fixed;inset:0;width:100%;height:100%;border:0;display:none;background:#000;z-index:10}
 </style>
 </head>
 <body>
+<header><div class="wrap"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNiAxNSIgc2hhcGUtcmVuZGVyaW5nPSJjcmlzcEVkZ2VzIj48cmVjdCB4PSIzIiB5PSIwIiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTYiIHk9IjAiIHdpZHRoPSIzIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIyMiIgeT0iMCIgd2lkdGg9IjMiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjMiIHk9IjEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSI0IiB5PSIxIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjRDY5NjZFIi8+PHJlY3QgeD0iNSIgeT0iMSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjE2IiB5PSIxIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTciIHk9IjEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNENjk2NkUiLz48cmVjdCB4PSIxOCIgeT0iMSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjIyIiB5PSIxIiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMyIgeT0iMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIyMiIgeT0iMiIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjI0IiB5PSIyIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMyIgeT0iMyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIyMiIgeT0iMyIgd2lkdGg9IjMiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjMiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjQiIHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI1IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iNyIgeT0iNSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjgiIHk9IjUiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxNCIgeT0iNSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjE1IiB5PSI1IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjUiIHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI2IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iNyIgeT0iNiIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjgiIHk9IjYiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxNCIgeT0iNiIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjE1IiB5PSI2IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjYiIHdpZHRoPSIzIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxIiB5PSI3IiB3aWR0aD0iOSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMTAiIHk9IjciIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiMxODE0MTIiLz48cmVjdCB4PSIxMiIgeT0iNyIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjIxIiB5PSI3IiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMSIgeT0iOCIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjgiIHk9IjgiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxNCIgeT0iOCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI5IiB3aWR0aD0iNSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iOCIgeT0iOSIgd2lkdGg9IjYiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjE0IiB5PSI5IiB3aWR0aD0iMTAiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjMiIHk9IjEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iOCIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxMCIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxMiIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxNCIgeT0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMyIgeT0iMTEiIHdpZHRoPSI1IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSI4IiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjEwIiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjEyIiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjE0IiB5PSIxMSIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjQiIHk9IjEyIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iNyIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIxNCIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIxNyIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSI0IiB5PSIxMyIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjciIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTQiIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTciIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PC9zdmc+" alt=""><b>BM CLIENT</b><span>Beech Marten Council</span></div></header>
 
-<header>
-  <div class="wrap">
-    <a class="logo" href="../"><span class="bars"><i></i><i></i><i></i><i></i></span>Admin Client</a>
-    <nav><a href="../">Releases</a><a href="../features.html">Features</a><a href="../changelog.html">Changelog</a><a href="../mods.html">Mods</a><a href="../skripts.html">Skripts</a><a href="../skins.html">Skins</a><a href="../packs.html">Packs</a><a href="../projects.html" class="on">More projects</a></nav>
-  </div>
-</header>
-
-<main class="wrap" id="page">
+<main class="wrap">
   <section class="intro">
-    <h1>BM Client</h1>
-    <p>Build and test tools for Blueberry Playground, from the Beech Marten Council. It sits on top of the real game and only shows you information or works on your own builds. It doesn't change the rules, time, ranges, or anyone else's stuff.</p>
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNiAxNSIgc2hhcGUtcmVuZGVyaW5nPSJjcmlzcEVkZ2VzIj48cmVjdCB4PSIzIiB5PSIwIiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTYiIHk9IjAiIHdpZHRoPSIzIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIyMiIgeT0iMCIgd2lkdGg9IjMiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjMiIHk9IjEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSI0IiB5PSIxIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjRDY5NjZFIi8+PHJlY3QgeD0iNSIgeT0iMSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjE2IiB5PSIxIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTciIHk9IjEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNENjk2NkUiLz48cmVjdCB4PSIxOCIgeT0iMSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjIyIiB5PSIxIiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMyIgeT0iMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIyMiIgeT0iMiIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjI0IiB5PSIyIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMyIgeT0iMyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIyMiIgeT0iMyIgd2lkdGg9IjMiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjMiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjQiIHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI1IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iNyIgeT0iNSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjgiIHk9IjUiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxNCIgeT0iNSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjE1IiB5PSI1IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjUiIHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI2IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iNyIgeT0iNiIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjgiIHk9IjYiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxNCIgeT0iNiIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzE4MTQxMiIvPjxyZWN0IHg9IjE1IiB5PSI2IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMjEiIHk9IjYiIHdpZHRoPSIzIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxIiB5PSI3IiB3aWR0aD0iOSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMTAiIHk9IjciIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiMxODE0MTIiLz48cmVjdCB4PSIxMiIgeT0iNyIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjIxIiB5PSI3IiB3aWR0aD0iMyIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMSIgeT0iOCIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjgiIHk9IjgiIHdpZHRoPSI2IiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxNCIgeT0iOCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIzIiB5PSI5IiB3aWR0aD0iNSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iOCIgeT0iOSIgd2lkdGg9IjYiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjE0IiB5PSI5IiB3aWR0aD0iMTAiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjMiIHk9IjEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iOCIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxMCIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSIxMiIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiNGNUU5Q0MiLz48cmVjdCB4PSIxNCIgeT0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxIiBmaWxsPSIjQjA2RTNBIi8+PHJlY3QgeD0iMyIgeT0iMTEiIHdpZHRoPSI1IiBoZWlnaHQ9IjEiIGZpbGw9IiNCMDZFM0EiLz48cmVjdCB4PSI4IiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjEwIiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjEyIiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iI0Y1RTlDQyIvPjxyZWN0IHg9IjE0IiB5PSIxMSIgd2lkdGg9IjciIGhlaWdodD0iMSIgZmlsbD0iI0IwNkUzQSIvPjxyZWN0IHg9IjQiIHk9IjEyIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iNyIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIxNCIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSIxNyIgeT0iMTIiIHdpZHRoPSIyIiBoZWlnaHQ9IjEiIGZpbGw9IiM2MDNBMUUiLz48cmVjdCB4PSI0IiB5PSIxMyIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iIzYwM0ExRSIvPjxyZWN0IHg9IjciIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTQiIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PHJlY3QgeD0iMTciIHk9IjEzIiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNjAzQTFFIi8+PC9zdmc+" alt="Beech Marten pixel logo">
+    <div>
+      <h1>BM CLIENT</h1>
+      <p>Build and test tools for Blueberry Playground. It sits on top of the real game and only shows you information or works on your own builds. It doesn't change the rules, time, ranges, or anyone else's stuff.</p>
+    </div>
   </section>
 
   <h2>Install</h2>
-
-  <div class="card full k2"><div class="info">
-    <div class="name">Option 1: Bookmarklet <span class="tag v2">easiest</span></div>
-    <ol class="steps">
+  <div class="card">
+    <div class="name">Bookmarklet<span class="tag">easiest</span></div>
+    <ol>
       <li>Show your bookmarks bar (<code>Ctrl+Shift+B</code>).</li>
       <li>Drag this onto the bookmarks bar: &nbsp;<a class="bmk" id="bm" href="#">BM Client</a></li>
       <li>Open Blueberry Playground and press Play.</li>
@@ -45,62 +68,52 @@
     </ol>
     <div class="note">Can't drag it? Make a bookmark by hand, name it BM Client, and paste this as the URL:</div>
     <textarea id="bmtext" readonly></textarea>
-  </div></div>
-
-  <div class="card full k3"><div class="info">
-    <div class="name">Option 2: Your own downloaded copy</div>
+  </div>
+  <div class="card b">
+    <div class="name">Your own downloaded copy</div>
     <div class="notes">If you saved Blueberry Playground as an .html file, pick it here and it opens with the client added. The file stays on your computer; nothing gets uploaded.</div>
-    <div style="margin-top:10px"><label class="btn">Choose game file<input id="pick" type="file" accept=".html,.htm" hidden></label></div>
+    <label class="btn">Choose game file<input id="pick" type="file" accept=".html,.htm" hidden></label>
     <div id="status"></div>
-    <div class="note">Multiplayer may not connect this way, because the game is running from your file instead of its own site. Use Option 1 for multiplayer.</div>
-  </div></div>
-
-  <div class="card full k4"><div class="info">
-    <div class="name">Option 3: Userscript</div>
+    <div class="note">Multiplayer may not connect this way, because the game runs from your file instead of its own site. Use the bookmarklet for multiplayer.</div>
+  </div>
+  <div class="card c">
+    <div class="name">Userscript</div>
     <div class="notes">With Tampermonkey or Violentmonkey, install <a href="bmc.user.js">bmc.user.js</a> and the client loads every time you open the game.</div>
-  </div></div>
+  </div>
 
-  <section>
-    <h2>What it does</h2>
-    <div class="grid">
-      <div class="feat"><b>BM build library</b><span>Pick a Beech Marten build and click to place it.</span></div>
-      <div class="feat"><b>Checkpoints</b><span>Track your build; it auto-saves when you add parts, not when it gets damaged. Respawn the last good copy.</span></div>
-      <div class="feat"><b>Tournament check</b><span>Flags banned materials, the nuke, and edited health.</span></div>
-      <div class="feat"><b>Damage numbers</b><span>See every hit and how hard.</span></div>
-      <div class="feat"><b>Hover info</b><span>Name, health bar, power, range and aim of whatever you point at.</span></div>
-      <div class="feat"><b>Aim lines</b><span>Where your guns are pointing. Your build only in multiplayer.</span></div>
-      <div class="feat"><b>Wire view</b><span>Blue dot = input, orange = output, yellow line = powered.</span></div>
-      <div class="feat"><b>Sensor beams</b><span>See each sensor's beam and range.</span></div>
-      <div class="feat"><b>Jiggle meter</b><span>Highlights parts of your build that are spinning or shaking.</span></div>
-      <div class="feat"><b>Center of mass</b><span>Shows why a build tips over.</span></div>
-      <div class="feat"><b>Ruler</b><span>Press <code>\</code> twice to measure distance.</span></div>
-      <div class="feat"><b>Replay</b><span>Ghost replay of the last 5 seconds at quarter speed.</span></div>
-      <div class="feat"><b>Lag meter</b><span>FPS, physics time and body count.</span></div>
-      <div class="feat"><b>Test range</b><span>Frozen dummies and balloon planes. Single player only.</span></div>
-    </div>
-  </section>
+  <h2>What it does</h2>
+  <div class="grid">
+    <div class="feat"><b>Checkpoints</b><span>Track your build; it auto-saves when you add parts, not when it gets damaged. Respawn the last good copy.</span></div>
+    <div class="feat"><b>Tournament check</b><span>Flags banned materials, the nuke, and edited health.</span></div>
+    <div class="feat"><b>Damage numbers</b><span>See every hit and how hard.</span></div>
+    <div class="feat"><b>Hover info</b><span>Name, health bar, power, range and aim of whatever you point at.</span></div>
+    <div class="feat"><b>Aim lines</b><span>Where your guns point. Your build only in multiplayer.</span></div>
+    <div class="feat"><b>Wire view</b><span>Blue dot = input, orange = output, yellow line = powered.</span></div>
+    <div class="feat"><b>Sensor beams</b><span>Each sensor's beam and range.</span></div>
+    <div class="feat"><b>Jiggle meter</b><span>Highlights parts of your build that spin or shake.</span></div>
+    <div class="feat"><b>Center of mass</b><span>Shows why a build tips over.</span></div>
+    <div class="feat"><b>Ruler</b><span>Press <code>\</code> twice to measure distance.</span></div>
+    <div class="feat"><b>Replay</b><span>Ghost replay of the last 5 seconds at quarter speed.</span></div>
+    <div class="feat"><b>Lag meter</b><span>FPS, physics time and body count.</span></div>
+    <div class="feat"><b>Test range</b><span>Frozen dummies and balloon planes. Single player only.</span></div>
+  </div>
 
-  <section>
-    <h2>Fair play</h2>
-    <p class="note">A small "BM Client on" tag shows in the corner so nobody thinks you're hiding it. In multiplayer the test range is off and aim lines only show your own build. Blueberry Playground belongs to its developer; this page doesn't contain or share the game.</p>
-  </section>
+  <h2>Fair play</h2>
+  <p class="note">A small "BM Client on" tag shows in the corner so nobody thinks you're hiding it. In multiplayer the test range is off and aim lines only show your own build. Blueberry Playground belongs to its developer; this page doesn't contain or share the game.</p>
 </main>
 
 <iframe id="frame" title="Blueberry Playground with BM Client"></iframe>
-
-<footer><div class="wrap"><span>glassifying</span><span id="yr"></span></div></footer>
+<footer><div class="wrap">BM Client · Beech Marten Council</div></footer>
 
 <script>
 (function () {
   var here = location.href.replace(/[#?].*$/, '').replace(/[^\/]*$/, '');
-  var client = here + 'client.js', builds = here + 'builds.js';
-
+  var client = here + 'client.js';
   var code = "javascript:(function(){var s=document.createElement('script');s.src='" + client + "?t='+Date.now();document.body.appendChild(s);})();";
   var bm = document.getElementById('bm');
   bm.href = code;
   bm.onclick = function (e) { e.preventDefault(); alert('Drag this to your bookmarks bar, then click it while Blueberry Playground is open.'); };
   document.getElementById('bmtext').value = code;
-
   document.getElementById('pick').onchange = function (e) {
     var f = e.target.files[0]; if (!f) return;
     var st = document.getElementById('status'); st.textContent = 'Loading ' + f.name + '...';
@@ -108,8 +121,7 @@
     r.onload = function () {
       var html = String(r.result);
       if (!/blueberry/i.test(html)) { st.textContent = "That doesn't look like Blueberry Playground."; return; }
-      var add = '<script>window.BMC_BASE=' + JSON.stringify(here) + ';<\/script>' +
-                '<script src="' + builds + '"><\/script><script src="' + client + '"><\/script>';
+      var add = '<script src="' + client + '"><\/script>';
       var i = html.lastIndexOf('</body>');
       html = i >= 0 ? html.slice(0, i) + add + html.slice(i) : html + add;
       var fr = document.getElementById('frame');
@@ -120,7 +132,6 @@
     r.onerror = function () { st.textContent = 'Could not read that file.'; };
     r.readAsText(f);
   };
-  document.getElementById('yr').textContent = new Date().getFullYear();
 })();
 </script>
 </body>
