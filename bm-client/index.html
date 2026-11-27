@@ -32,8 +32,7 @@
   ol{color:var(--dim);font-size:13px;margin:8px 0 0 20px} li{margin-top:4px}
   .notes{color:var(--dim);font-size:13px;margin-top:6px}
   code{font-family:var(--mono);font-size:12px;color:var(--bib);border:1px solid var(--line2);padding:0 4px}
-  .bmk{display:inline-block;font-family:Silkscreen,var(--mono);font-weight:700;color:var(--bg);background:var(--bib);border:1px dashed var(--bg);outline:1px solid var(--bib);padding:7px 14px;text-decoration:none;cursor:grab}
-  .btn{display:inline-block;font-size:13px;font-weight:600;color:var(--text);background:#262220;border:1px solid var(--line2);padding:8px 16px;cursor:pointer;margin-top:10px}
+    .btn{display:inline-block;font-size:13px;font-weight:600;color:var(--text);background:#262220;border:1px solid var(--line2);padding:8px 16px;cursor:pointer;margin-top:10px}
   .btn:hover{border-color:var(--fur)}
   textarea{width:100%;height:62px;margin-top:8px;background:var(--bg);color:var(--bib);border:1px solid var(--line2);font:11px var(--mono);padding:8px;resize:vertical}
   .note{color:var(--mute);font-size:12px;margin-top:8px}
@@ -59,22 +58,11 @@
 
   <h2>Install</h2>
   <div class="card">
-    <div class="name">Bookmarklet<span class="tag">easiest</span></div>
-    <ol>
-      <li>Show your bookmarks bar (<code>Ctrl+Shift+B</code>).</li>
-      <li>Drag this onto the bookmarks bar: &nbsp;<a class="bmk" id="bm" href="#">BM Client</a></li>
-      <li>Open Blueberry Playground and press Play.</li>
-      <li>Click the <b>BM Client</b> bookmark. Press <code>`</code> to hide or show the panel.</li>
-    </ol>
-    <div class="note">Can't drag it? Make a bookmark by hand, name it BM Client, and paste this as the URL:</div>
-    <textarea id="bmtext" readonly></textarea>
-  </div>
-  <div class="card b">
-    <div class="name">Your own downloaded copy</div>
+    <div class="name">Your own downloaded copy<span class="tag">main</span></div>
     <div class="notes">If you saved Blueberry Playground as an .html file, pick it here and it opens with the client added. The file stays on your computer; nothing gets uploaded.</div>
     <label class="btn">Choose game file<input id="pick" type="file" accept=".html,.htm" hidden></label>
     <div id="status"></div>
-    <div class="note">Multiplayer may not connect this way, because the game runs from your file instead of its own site. Use the bookmarklet for multiplayer.</div>
+    <div class="note">Multiplayer may not connect this way, because the game runs from your file instead of its own site.</div>
   </div>
   <div class="card c">
     <div class="name">Userscript</div>
@@ -109,11 +97,6 @@
 (function () {
   var here = location.href.replace(/[#?].*$/, '').replace(/[^\/]*$/, '');
   var client = here + 'client.js';
-  var code = "javascript:(function(){var s=document.createElement('script');s.src='" + client + "?t='+Date.now();document.body.appendChild(s);})();";
-  var bm = document.getElementById('bm');
-  bm.href = code;
-  bm.onclick = function (e) { e.preventDefault(); alert('Drag this to your bookmarks bar, then click it while Blueberry Playground is open.'); };
-  document.getElementById('bmtext').value = code;
   document.getElementById('pick').onchange = function (e) {
     var f = e.target.files[0]; if (!f) return;
     var st = document.getElementById('status'); st.textContent = 'Loading ' + f.name + '...';
